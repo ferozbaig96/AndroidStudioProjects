@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.fbulou.mappy.MainActivity"
+    tools:showIn="@layout/app_bar_main">
+
+    <LinearLayout
+        android:id="@+id/getdirections_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@drawable/side_nav_bar"
+        android:gravity="center|top"
+        android:orientation="vertical"
+        android:visibility="gone">
+
+        <EditText
+            android:id="@+id/mEdittextSource"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="2dp"
+            android:drawableStart="@mipmap/ic_action_place"
+            android:hint="Source"
+            android:inputType="text"
+            android:nextFocusDown="@+id/mEdittextDestination"
+            android:paddingTop="80dp" />
+
+        <EditText
+            android:id="@+id/mEdittextDestination"
+            android:layout_width="200dp"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="5dp"
+            android:layout_marginTop="2dp"
+            android:drawableStart="@mipmap/ic_action_place"
+            android:hint="Destination"
+            android:imeOptions="actionDone"
+            android:inputType="text" />
+
+        <ImageButton
+            android:id="@+id/getDirectionsButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center_horizontal"
+            android:layout_marginBottom="1dp"
+            android:layout_marginTop="5dp"
+            android:background="#00FFFFFF"
+            android:contentDescription="Cancel Image"
+            android:onClick="Cancel"
+            android:src="@mipmap/ic_action_cancel" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <android.support.v7.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content">
+
+            <fragment
+                android:id="@+id/autocomplete_fragment"
+                android:name="com.google.android.gms.location.places.ui.PlaceAutocompleteFragment"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content" />
+        </android.support.v7.widget.CardView>
+    </LinearLayout>
+
+    <fragment
+        android:id="@+id/map"
+        android:name="com.google.android.gms.maps.MapFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+</LinearLayout>

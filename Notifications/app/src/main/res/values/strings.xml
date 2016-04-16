@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Notifications</string>
+    <string name="special_pendingIntent">Go back and then check Recents....Kaboom! This activity is gone and Application\'s activity isn\'t interfered</string>
+    <string name="regular_pendingIntent">Press back to go to the Application\'s activity! Also, this notification can expand!</string>
+    <string name="RegularPIN">Regular Pending Intent Notification</string>
+    <string name="SpecialPIN">Special Pending Intent Notification</string>
+
+</resources>

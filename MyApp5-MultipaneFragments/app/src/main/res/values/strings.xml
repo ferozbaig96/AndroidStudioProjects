@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">My App5-Multipane Fragments</string>
+    <string name="main_panel_text">Main Panel</string>
+    <string name="side_panel_text">Side Panel</string>
+</resources>

@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_directions"
+            android:icon="@mipmap/ic_action_directions"
+            android:title="Get Directions" />
+        <item
+            android:id="@+id/nav_add_gfence"
+            android:icon="@mipmap/ic_action_new"
+            android:title="Add Geofence" />
+        <item
+            android:id="@+id/nav_rm_gfence"
+            android:icon="@mipmap/ic_action_discard"
+            android:title="Discard all geofences" />
+
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_send"
+                android:icon="@drawable/ic_menu_send"
+                android:title="Send" />
+        </menu>
+    </item>
+
+</menu>

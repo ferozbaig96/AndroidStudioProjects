@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">My App4-Fragments</string>
+    <string name="fragment1_text">This is fragment #1</string>
+    <string name="fragment2_text">This is fragment #2</string>
+</resources>

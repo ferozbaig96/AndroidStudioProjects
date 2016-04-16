@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">Notification</string>
+    <string name="display_notification">Display Notification</string>
+    <string name="special_pendingIntent">Go back and then check Recents...Kaboom! This activity is gone and Application\'s activity isnt interfered</string>
+</resources>

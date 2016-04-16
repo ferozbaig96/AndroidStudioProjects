@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">My Application 1 Espanol</string>
+    <string name="ButtonNo">No</string>
+    <string name="ButtonYes">Si</string>
+    <string name="honesty">Are you honest? Espanol</string>
+    <string name="me_good">Im good Espanol</string>
+    <string name="me_bad">Im bad Espanol</string>
+    <string name="tell_name">Your Name? Espanol</string>
+</resources>

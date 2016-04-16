@@ -1,0 +1,179 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+
+    <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:padding="16dp"
+        tools:context=".MainActivity">
+
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/text_convert_from"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+
+        <EditText
+            android:id="@+id/amount_text_view"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentTop="true"
+            android:inputType="numberDecimal"
+            android:text="@string/default_editText" />
+
+        <Spinner
+            android:id="@+id/unit_type_spinner"
+            android:layout_width="match_parent"
+            android:layout_height="80dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentStart="true"
+            android:layout_below="@+id/amount_text_view"
+            android:layout_marginBottom="25dp" />
+
+        <HorizontalScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_below="@+id/unit_type_spinner">
+
+            <GridLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_alignParentEnd="false"
+                android:layout_alignParentStart="true"
+                android:layout_below="@+id/unit_type_spinner"
+                android:background="#dae6ff"
+                android:columnCount="2"
+                android:orientation="horizontal"
+                android:padding="15dp"
+                android:rowCount="6">
+
+                <TextView
+                    android:id="@+id/tsp_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginRight="30dp"
+                    android:text="@string/deafult_tsp"
+                    android:textAppearance="?android:textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/cup_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginRight="30dp"
+                    android:text="@string/default_cup"
+                    android:textAppearance="?android:textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/tbs_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginRight="30dp"
+                    android:text="0.333 tbs"
+                    android:textAppearance="?android:textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/oz_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|start"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginRight="30dp"
+                    android:text="0.1666 oz"
+                    android:textAppearance="?android:textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/kg_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginRight="30dp"
+                    android:text="0.057 kg"
+                    android:textAppearance="?android:textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/quart_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|start"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginRight="30dp"
+                    android:text="0.0052 quart"
+                    android:textAppearance="?android:textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/gallon_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|start"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginRight="30dp"
+                    android:text="0.0013 gallon"
+                    android:textAppearance="?android:textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/pound_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginRight="30dp"
+                    android:text="0.0125 pound"
+                    android:textAppearance="?android:textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/ml_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|start"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginRight="30dp"
+                    android:text="4.9289 mL"
+                    android:textAppearance="?android:textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/l_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginRight="30dp"
+                    android:text="0.0049 L"
+                    android:textAppearance="?android:textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/mg_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="top|start"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginRight="30dp"
+                    android:text="5687.5000 mg"
+                    android:textAppearance="?android:textAppearanceMedium" />
+
+                <TextView
+                    android:id="@+id/pint_text_view"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="start"
+                    android:layout_marginBottom="30dp"
+                    android:layout_marginRight="30dp"
+                    android:text="0.104 pint"
+                    android:textAppearance="?android:textAppearanceMedium" />
+
+            </GridLayout>
+        </HorizontalScrollView>
+    </RelativeLayout>
+</ScrollView>

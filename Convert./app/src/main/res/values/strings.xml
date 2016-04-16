@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Convesion</string>
+    <string name="text_convert_from">Convert From</string>
+    <string name="deafult_tsp">1.0 teaspoon</string>
+    <string name="default_cup">0.208 cup</string>
+    <string name="default_editText">1.0</string>
+</resources>

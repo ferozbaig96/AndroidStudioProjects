@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+        xmlns:tools="http://schemas.android.com/tools"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        tools:context="com.example.fbulou.sqlite.MainActivity">
+
+
+        <Button
+            android:id="@+id/mCreateDB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:onClick="createDB"
+            android:text="Create Database" />
+
+        <Button
+            android:id="@+id/mAddContact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:onClick="addContact"
+            android:text="Add Contact" />
+
+        <Button
+            android:id="@+id/mGetContacts"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:onClick="getContacts"
+            android:text="Get Contacts" />
+
+        <Button
+            android:id="@+id/mDeleteContact"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:onClick="deleteContact"
+            android:text="Delete Contact" />
+
+        <EditText
+            android:id="@+id/mNameEdittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Name" />
+
+        <EditText
+            android:id="@+id/mEmailEdittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Email"
+            android:inputType="textEmailAddress" />
+
+        <EditText
+            android:id="@+id/mIDEdittext"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="ID to delete"
+            android:inputType="numberDecimal" />
+
+        <Button
+            android:id="@+id/mDeleteDB"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:enabled="false"
+            android:onClick="deleteDB"
+            android:text="Delete Database" />
+
+        <TextView
+            android:id="@+id/mResultTextview"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+
+    </LinearLayout>
+</ScrollView>

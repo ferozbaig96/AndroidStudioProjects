@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">My App-SwitchingScreens</string>
+    <string name="get_the_name">Go Get the name</string>
+    <string name="go_to_another_activity">Go to another activity</string>
+    <string name="enter_name">Enter your name</string>
+    <string name="hint_your_name">Your Name</string>
+    <string name="submit">Submit</string>
+    <string name="previous_activity">Previous Activity :</string>
+</resources>

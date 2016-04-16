@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">My App3-Menus</string>
+    <string name="action_settings">Settings</string>
+    <string name="action_exit_text">Exit</string>
+</resources>

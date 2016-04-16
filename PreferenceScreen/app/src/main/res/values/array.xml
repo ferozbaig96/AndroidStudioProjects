@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string-array name="text_size_entries">
+        <item>16 dp</item>
+        <item>17 dp</item>
+        <item>18 dp</item>
+        <item>19 dp</item>
+        <item>20 dp</item>
+        <item>21 dp</item>
+    </string-array>
+
+    <string-array name="text_size_values">
+        <item>16</item>
+        <item>17</item>
+        <item>18</item>
+        <item>19</item>
+        <item>20</item>
+        <item>21</item>
+    </string-array>
+
+</resources>

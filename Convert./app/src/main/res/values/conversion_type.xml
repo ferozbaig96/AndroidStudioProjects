@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="conversion_type">
+
+        <item>teaspoon</item>
+        <item>tablespoon</item>
+        <item>cup</item>
+        <item>ounce</item>
+        <item>pint</item>
+        <item>quart</item>
+        <item>gallon</item>
+        <item>pound</item>
+        <item>millilitre</item>
+        <item>litre</item>
+        <item>milligram</item>
+        <item>kilogram</item>
+
+
+    </string-array>
+</resources>

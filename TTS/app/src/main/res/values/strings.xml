@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">TTS</string>
+    <string name="enter_the_text">Enter the text!</string>
+    <string name="translate">Speak Out</string>
+</resources>

@@ -1,0 +1,5 @@
+Navigate to opt/java/jdk*/bin
+
+Then execute the following command : 
+
+./keytool -list -v -keystore ~/.android/debug.keystore -alias androiddebugkey -storepass android -keypass android

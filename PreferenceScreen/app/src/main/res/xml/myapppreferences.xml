@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">   <!--PreferenceScreen-->
+
+    <PreferenceCategory android:title="Category 1">
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_textBold"
+            android:summary="Makes the text Bold"
+            android:title="Text Bold" />
+
+        <CheckBoxPreference
+            android:defaultValue="false"
+            android:key="pref_textItalic"
+            android:summary="Makes the text Italic"
+            android:title="Text Italic" />
+
+    </PreferenceCategory>
+
+    <PreferenceCategory android:title="Category 2">
+        <ListPreference
+            android:defaultValue="16"
+            android:entries="@array/text_size_entries"
+            android:entryValues="@array/text_size_values"
+            android:key="pref_textSize"
+            android:summary="Pick the text size"
+            android:title="Text Size" />
+
+    </PreferenceCategory>
+</PreferenceScreen>

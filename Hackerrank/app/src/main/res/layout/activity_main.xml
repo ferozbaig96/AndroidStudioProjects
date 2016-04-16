@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:padding="16dp"
+    tools:context="com.example.fbulou.hackerrank.MainActivity">
+
+    <HorizontalScrollView
+        android:layout_width="match_parent"
+        android:layout_height="200dp">
+
+        <EditText
+            android:id="@+id/id_code"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:gravity="top"
+            android:hint="//The Code goes here" />
+    </HorizontalScrollView>
+
+    <Button
+        style="@style/Base.Widget.AppCompat.Button.Borderless"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="end"
+        android:onClick="submit"
+        android:text="SUBMIT" />
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+        <ProgressBar
+            android:id="@+id/id_progressbar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_centerHorizontal="true"
+            android:indeterminate="true"
+            android:visibility="gone" />
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:id="@+id/id_output"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:hint="Output :" />
+        </ScrollView>
+    </RelativeLayout>
+</LinearLayout>
