@@ -1,0 +1,8 @@
+<resources>
+    <string name="app_name">Measure IPD</string>
+    <string name="action_settings">Settings</string>
+    <string name="imagebutton">imagebutton</string>
+    <string name="title_activity_image">ImageActivity</string>
+    <string name="takenphoto">takenPhoto</string>
+    <string name="draggable_imageview">Draggable ImageView</string>
+</resources>

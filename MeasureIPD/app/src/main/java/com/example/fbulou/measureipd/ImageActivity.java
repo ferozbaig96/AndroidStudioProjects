@@ -1,0 +1,325 @@
+package com.example.fbulou.measureipd;
+
+import android.Manifest;
+import android.content.ClipData;
+import android.content.ContentResolver;
+import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.Point;
+import android.net.Uri;
+import android.os.Bundle;
+import android.os.Environment;
+import android.provider.MediaStore;
+import android.support.annotation.NonNull;
+import android.support.design.widget.FloatingActionButton;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
+import android.util.TypedValue;
+import android.view.DragEvent;
+import android.view.MotionEvent;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.Toast;
+
+import java.io.File;
+import java.io.IOException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.Locale;
+
+public class ImageActivity extends AppCompatActivity {
+
+    private static final int CAMERA_REQUESTCODE = 0;
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 2;
+    ImageView mImageViewPhoto, mImageViewDragLeftEye, mImageViewDragRightEye, mImageViewDragDisc;
+
+    private Uri mImageURI;
+    static ImageActivity Instance;
+    Eye e1, e2;
+    float diffX, diffY;         //to enable dragging from the current touch (and not from the view's center)
+    float mImageEyesDistance;
+    float mImageDiscDistance;   //Initialised in findDistanceOrResult, Modified in MyTouchZoomDragDropListener class
+    int countFloatingActionButtonClick;
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_image);
+
+        countFloatingActionButtonClick = 0;
+
+        Instance = this;
+        mImageViewPhoto = (ImageView) findViewById(R.id.mImageViewPhoto);
+        mImageViewDragLeftEye = (ImageView) findViewById(R.id.mImageViewDragLeftEye);
+        mImageViewDragRightEye = (ImageView) findViewById(R.id.mImageViewDragRightEye);
+        mImageViewDragDisc = (ImageView) findViewById(R.id.mImageViewDragDisc);
+
+        e1 = new Eye();
+        e2 = new Eye();
+
+        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        assert fab != null;
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                findDistanceOrResult();
+            }
+        });
+
+        enableDragAndDrop();
+        captureImage();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+
+        //To hide the status bar
+        View decorView = getWindow().getDecorView();
+        int uiOptions = View.SYSTEM_UI_FLAG_FULLSCREEN;
+        decorView.setSystemUiVisibility(uiOptions);
+    }
+
+    private void findDistanceOrResult() {
+        countFloatingActionButtonClick++;
+
+        if (countFloatingActionButtonClick == 1)     //first click
+        {
+            mImageEyesDistance = (float) Math.sqrt(Math.pow(e2.getX() - e1.getX(), 2) + Math.pow(e2.getY() - e1.getY(), 2));
+
+
+            //Converting pixels to mm
+            mImageEyesDistance /= TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, 1, getResources().getDisplayMetrics());
+
+            Toast.makeText(ImageActivity.this, "Image IPD : " + mImageEyesDistance + " mm", Toast.LENGTH_SHORT).show();
+
+            mImageViewDragDisc.setVisibility(View.VISIBLE);
+            mImageViewDragLeftEye.setVisibility(View.GONE);
+            mImageViewDragRightEye.setVisibility(View.GONE);
+
+            mImageDiscDistance = mImageViewDragDisc.getHeight();
+            ViewGroup.LayoutParams layoutParams = mImageViewDragDisc.getLayoutParams();
+            layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+            layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+            mImageViewDragDisc.setLayoutParams(layoutParams);
+
+        } else {        //second click
+
+            //mImageViewDragDisc.setVisibility(View.GONE);
+
+            //Converting pixels to mm
+            mImageDiscDistance /= TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, 1, getResources().getDisplayMetrics());
+
+            Toast.makeText(ImageActivity.this, "Disc Diameter : " + mImageDiscDistance + " mm", Toast.LENGTH_SHORT).show();
+
+            float result = 120 * mImageEyesDistance / mImageDiscDistance;   // 120mm is the diameter of a CD
+            Toast.makeText(ImageActivity.this, "IPD : " + result + " mm", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    static ImageActivity getInstance() {
+        return Instance;
+    }
+
+    private void enableDragAndDrop() {
+        mImageViewDragLeftEye.setOnTouchListener(new MyTouchListener());
+        mImageViewDragLeftEye.getRootView().setOnDragListener(new MyDragListener());
+        mImageViewDragRightEye.setOnTouchListener(new MyTouchListener());
+        mImageViewDragRightEye.getRootView().setOnDragListener(new MyDragListener());
+        mImageViewDragDisc.setOnTouchListener(new MyTouchZoomDragDropListener());
+    }
+
+    //Use as it is. Here, showing dragShadow from any point in the view
+    private final class MyTouchListener implements View.OnTouchListener {
+        public boolean onTouch(View view, MotionEvent motionevent) {
+            if (motionevent.getAction() == MotionEvent.ACTION_DOWN) {
+
+                final MotionEvent event = motionevent;
+                final View v = view;
+
+                ClipData data = ClipData.newPlainText("", "");
+
+                //To show Dragshadow from any point in the view
+                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view) {
+                    @Override
+                    public void onProvideShadowMetrics(Point shadowSize, Point shadowTouchPoint) {
+                        shadowSize.set(v.getWidth(), v.getHeight());
+                        shadowTouchPoint.set((int) event.getX(), (int) event.getY());
+                    }
+                };
+
+                diffX = motionevent.getX();
+                diffY = motionevent.getY();
+
+                view.startDrag(data, shadowBuilder, view, 0);
+                return true;
+            } else
+                return false;
+        }
+    }
+
+    //Use as it is
+    class MyDragListener implements View.OnDragListener {
+        public boolean onDrag(View v, DragEvent event) {
+            switch (event.getAction()) {
+
+                case DragEvent.ACTION_DRAG_LOCATION:
+                    float x_cord = event.getX();
+                    float y_cord = event.getY();
+
+                    View view = (View) event.getLocalState();
+                    view.setVisibility(View.INVISIBLE);
+
+                    Log.e("TAG", "Action Drag Location");
+                    Log.e("TAG", "X : " + x_cord + "\t" + "Y : " + y_cord);     //point currently touched
+                    break;
+
+                case DragEvent.ACTION_DROP:
+                    x_cord = event.getX();
+                    y_cord = event.getY();
+
+                    view = (View) event.getLocalState();
+                    view.setX(x_cord - diffX);//- (view.getWidth() / 2));
+                    view.setY(y_cord - diffY);//- (view.getHeight() / 2)));
+                    view.setVisibility(View.VISIBLE);
+
+                    switch (view.getId()) {
+                        case R.id.mImageViewDragLeftEye:
+                            /*e1.setX(view.getX());
+                            e1.setY(view.getY());
+
+                            OR
+                            */
+                            e1.setX(x_cord - diffX);
+                            e1.setY(y_cord - diffY);
+                            break;
+
+                        case R.id.mImageViewDragRightEye:
+                            /*e2.setX(view.getX());
+                            e2.setY(view.getY());
+
+                            OR
+                            */
+
+                            e2.setX(x_cord - diffX);
+                            e2.setY(y_cord - diffY);
+                            break;
+                    }
+
+                    break;
+            }
+            return true;
+        }
+    }
+
+    //Use as it is
+    private File mCreateFile(String filename) throws IOException {      //throws IOException
+
+        //Storing in Internal Memory
+        File internal = Environment.getExternalStorageDirectory();
+        File directory = new File(internal.getAbsolutePath() + "/Measure IPD/");
+
+        if (!directory.exists())
+            directory.mkdirs();
+
+        return new File(directory, filename);
+    }
+
+    //Use as it is
+    void captureImage() {
+
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permissionCheck == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+        }
+
+        Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
+        File photo = null;
+
+        String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.ENGLISH).format(new Date());
+        try {
+            photo = this.mCreateFile("myPic_" + timeStamp + ".jpg");
+        } catch (IOException e) {
+            e.printStackTrace();
+            Toast.makeText(ImageActivity.this, "Image shot is impossible", Toast.LENGTH_SHORT).show();
+        }
+
+        mImageURI = Uri.fromFile(photo);
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, mImageURI);
+        startActivityForResult(intent, CAMERA_REQUESTCODE);
+    }
+
+    //Use as it is
+    public void grabImage(ImageView imageView) {
+
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        if (permissionCheck == PackageManager.PERMISSION_DENIED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+        }
+
+        this.getContentResolver().notifyChange(mImageURI, null);
+        ContentResolver cr = this.getContentResolver();
+        Bitmap bitmap;
+        try {
+            bitmap = android.provider.MediaStore.Images.Media.getBitmap(cr, mImageURI);
+            imageView.setImageBitmap(bitmap);
+        } catch (Exception e) {
+            Toast.makeText(this, "Failed to load", Toast.LENGTH_SHORT).show();
+            e.printStackTrace();
+        }
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+
+        if (requestCode == CAMERA_REQUESTCODE) {
+            if (resultCode == RESULT_OK) {
+                grabImage(mImageViewPhoto);
+            } else
+                finish();
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    captureImage();
+                } else
+                    Toast.makeText(ImageActivity.this, "Change your Settings to allow this app to write external storage", Toast.LENGTH_SHORT).show();
+            }
+            break;
+
+            case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    grabImage(mImageViewPhoto);
+                } else
+                    Toast.makeText(ImageActivity.this, "Change your Settings to allow this app to read external storage", Toast.LENGTH_SHORT).show();
+            }
+            break;
+        }
+    }
+
+    //To get status Bar Height
+    public int getStatusbarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+
+        if (resourceId > 0)
+            result = getResources().getDimensionPixelSize(resourceId);
+
+        return result;
+    }
+
+}
