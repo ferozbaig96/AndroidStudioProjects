@@ -32,6 +32,7 @@ public class MyTouchZoomDragDropListener implements View.OnTouchListener {
     float oldDist = 1f;
 
     float scale = 1f;
+    boolean firstTouch = true;
 
     public boolean onTouch(View v, MotionEvent event) {
         ImageView view = (ImageView) v;
@@ -40,6 +41,12 @@ public class MyTouchZoomDragDropListener implements View.OnTouchListener {
         // Handle touch events here...
         switch (event.getAction() & MotionEvent.ACTION_MASK) {
             case MotionEvent.ACTION_DOWN: //1 finger down
+
+                if (firstTouch) {
+                    ImageActivity.getInstance().mTourGuideHandlerDisc.cleanUp();
+                    firstTouch = false;
+                }
+
                 savedMatrix.set(matrix);
                 start.set(event.getX(), event.getY());
                 Log.e(TAG, "mode=DRAG");

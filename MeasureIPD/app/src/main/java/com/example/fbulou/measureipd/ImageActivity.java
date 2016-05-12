@@ -1,12 +1,11 @@
 package com.example.fbulou.measureipd;
 
 import android.Manifest;
-import android.content.ClipData;
 import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Point;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -16,10 +15,8 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.util.TypedValue;
-import android.view.DragEvent;
-import android.view.MotionEvent;
+import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -31,20 +28,28 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
+import tourguide.tourguide.ChainTourGuide;
+import tourguide.tourguide.Overlay;
+import tourguide.tourguide.Sequence;
+import tourguide.tourguide.ToolTip;
+import tourguide.tourguide.TourGuide;
+
 public class ImageActivity extends AppCompatActivity {
 
     private static final int CAMERA_REQUESTCODE = 0;
     private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 1;
     private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 2;
     ImageView mImageViewPhoto, mImageViewDragLeftEye, mImageViewDragRightEye, mImageViewDragDisc;
+    FloatingActionButton fab;
 
     private Uri mImageURI;
     static ImageActivity Instance;
     Eye e1, e2;
-    float diffX, diffY;         //to enable dragging from the current touch (and not from the view's center)
+    float diffX, diffY;         //to enable dragging from the current touch (and not from the view's center ,i.e default)
     float mImageEyesDistance;
     float mImageDiscDistance;   //Initialised in findDistanceOrResult, Modified in MyTouchZoomDragDropListener class
     int countFloatingActionButtonClick;
+    TourGuide mTourGuideHandlerDisc;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,8 +67,7 @@ public class ImageActivity extends AppCompatActivity {
         e1 = new Eye();
         e2 = new Eye();
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        assert fab != null;
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -73,6 +77,9 @@ public class ImageActivity extends AppCompatActivity {
 
         enableDragAndDrop();
         captureImage();
+
+        //ShowcaseView on Camera ImageView
+        scv_eyeHolders();
     }
 
     @Override
@@ -92,33 +99,40 @@ public class ImageActivity extends AppCompatActivity {
         {
             mImageEyesDistance = (float) Math.sqrt(Math.pow(e2.getX() - e1.getX(), 2) + Math.pow(e2.getY() - e1.getY(), 2));
 
-
             //Converting pixels to mm
             mImageEyesDistance /= TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, 1, getResources().getDisplayMetrics());
 
-            Toast.makeText(ImageActivity.this, "Image IPD : " + mImageEyesDistance + " mm", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(ImageActivity.this, "Image IPD : " + mImageEyesDistance + " mm", Toast.LENGTH_SHORT).show();
 
             mImageViewDragDisc.setVisibility(View.VISIBLE);
             mImageViewDragLeftEye.setVisibility(View.GONE);
             mImageViewDragRightEye.setVisibility(View.GONE);
 
             mImageDiscDistance = mImageViewDragDisc.getHeight();
+            //Converting pixels to mm
+            mImageDiscDistance /= TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, 1, getResources().getDisplayMetrics());
+
+            //changing layout of mImageViewDragDisc to MATCH_PARENT,MATCH_PARENT
             ViewGroup.LayoutParams layoutParams = mImageViewDragDisc.getLayoutParams();
             layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
             layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
             mImageViewDragDisc.setLayoutParams(layoutParams);
 
+            fab.setImageResource(android.R.drawable.ic_menu_view);
+            //ShowcaseView on Disc
+            scv_disc();
+
         } else {        //second click
 
             //mImageViewDragDisc.setVisibility(View.GONE);
 
-            //Converting pixels to mm
-            mImageDiscDistance /= TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, 1, getResources().getDisplayMetrics());
-
-            Toast.makeText(ImageActivity.this, "Disc Diameter : " + mImageDiscDistance + " mm", Toast.LENGTH_SHORT).show();
+           // Toast.makeText(ImageActivity.this, "Disc Diameter : " + mImageDiscDistance + " mm", Toast.LENGTH_SHORT).show();
 
             float result = 120 * mImageEyesDistance / mImageDiscDistance;   // 120mm is the diameter of a CD
-            Toast.makeText(ImageActivity.this, "IPD : " + result + " mm", Toast.LENGTH_SHORT).show();
+
+            Toast t=Toast.makeText(ImageActivity.this, "Your Inter-Pupillary Distance : " + result + " mm", Toast.LENGTH_SHORT);
+            t.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+            t.show();
         }
     }
 
@@ -132,89 +146,6 @@ public class ImageActivity extends AppCompatActivity {
         mImageViewDragRightEye.setOnTouchListener(new MyTouchListener());
         mImageViewDragRightEye.getRootView().setOnDragListener(new MyDragListener());
         mImageViewDragDisc.setOnTouchListener(new MyTouchZoomDragDropListener());
-    }
-
-    //Use as it is. Here, showing dragShadow from any point in the view
-    private final class MyTouchListener implements View.OnTouchListener {
-        public boolean onTouch(View view, MotionEvent motionevent) {
-            if (motionevent.getAction() == MotionEvent.ACTION_DOWN) {
-
-                final MotionEvent event = motionevent;
-                final View v = view;
-
-                ClipData data = ClipData.newPlainText("", "");
-
-                //To show Dragshadow from any point in the view
-                View.DragShadowBuilder shadowBuilder = new View.DragShadowBuilder(view) {
-                    @Override
-                    public void onProvideShadowMetrics(Point shadowSize, Point shadowTouchPoint) {
-                        shadowSize.set(v.getWidth(), v.getHeight());
-                        shadowTouchPoint.set((int) event.getX(), (int) event.getY());
-                    }
-                };
-
-                diffX = motionevent.getX();
-                diffY = motionevent.getY();
-
-                view.startDrag(data, shadowBuilder, view, 0);
-                return true;
-            } else
-                return false;
-        }
-    }
-
-    //Use as it is
-    class MyDragListener implements View.OnDragListener {
-        public boolean onDrag(View v, DragEvent event) {
-            switch (event.getAction()) {
-
-                case DragEvent.ACTION_DRAG_LOCATION:
-                    float x_cord = event.getX();
-                    float y_cord = event.getY();
-
-                    View view = (View) event.getLocalState();
-                    view.setVisibility(View.INVISIBLE);
-
-                    Log.e("TAG", "Action Drag Location");
-                    Log.e("TAG", "X : " + x_cord + "\t" + "Y : " + y_cord);     //point currently touched
-                    break;
-
-                case DragEvent.ACTION_DROP:
-                    x_cord = event.getX();
-                    y_cord = event.getY();
-
-                    view = (View) event.getLocalState();
-                    view.setX(x_cord - diffX);//- (view.getWidth() / 2));
-                    view.setY(y_cord - diffY);//- (view.getHeight() / 2)));
-                    view.setVisibility(View.VISIBLE);
-
-                    switch (view.getId()) {
-                        case R.id.mImageViewDragLeftEye:
-                            /*e1.setX(view.getX());
-                            e1.setY(view.getY());
-
-                            OR
-                            */
-                            e1.setX(x_cord - diffX);
-                            e1.setY(y_cord - diffY);
-                            break;
-
-                        case R.id.mImageViewDragRightEye:
-                            /*e2.setX(view.getX());
-                            e2.setY(view.getY());
-
-                            OR
-                            */
-
-                            e2.setX(x_cord - diffX);
-                            e2.setY(y_cord - diffY);
-                            break;
-                    }
-
-                    break;
-            }
-            return true;
-        }
     }
 
     //Use as it is
@@ -311,15 +242,48 @@ public class ImageActivity extends AppCompatActivity {
         }
     }
 
-    //To get status Bar Height
-    public int getStatusbarHeight() {
-        int result = 0;
-        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+    private void scv_eyeHolders() {
+        ChainTourGuide tourGuide1 = ChainTourGuide.init(this)
+                .setToolTip(new ToolTip()
+                        .setDescription("Aim at the leftmost corner of the left eye pupil in the image by dragging it")
+                        .setGravity(Gravity.BOTTOM)
+                        .setBackgroundColor(Color.parseColor("#c0392b"))
+                )
+                .setOverlay(new Overlay()
+                        .setBackgroundColor(Color.parseColor("#EE2c3e50"))
+                )
+                .playLater(mImageViewDragLeftEye);
 
-        if (resourceId > 0)
-            result = getResources().getDimensionPixelSize(resourceId);
+        ChainTourGuide tourGuide2 = ChainTourGuide.init(this)
+                .setToolTip(new ToolTip()
+                        .setDescription("Aim at the leftmost corner of the left eye pupil in the image by dragging it")
+                        .setGravity(Gravity.BOTTOM)
+                        .setBackgroundColor(Color.parseColor("#c0392b"))
+                )
+                .setOverlay(new Overlay()
+                        .setBackgroundColor(Color.parseColor("#EE2c3e50"))
+                )
+                .playLater(mImageViewDragRightEye);
 
-        return result;
+        Sequence sequence = new Sequence.SequenceBuilder()
+                .add(tourGuide1, tourGuide2)
+                .setDefaultOverlay(new Overlay()
+                )
+                .setDefaultPointer(null)
+                .setContinueMethod(Sequence.ContinueMethod.Overlay)
+                .build();
+
+        ChainTourGuide.init(this).playInSequence(sequence);
     }
 
+    private void scv_disc() {
+        mTourGuideHandlerDisc = TourGuide.init(this).
+                with(TourGuide.Technique.Click)
+                .setToolTip(new ToolTip()
+                        .setDescription("Put it on the boundary of the compact disc (CD) in the image")
+                        .setGravity(Gravity.BOTTOM)
+                )
+                //   .setOverlay(new Overlay())
+                .playOn(mImageViewDragDisc);
+    }
 }

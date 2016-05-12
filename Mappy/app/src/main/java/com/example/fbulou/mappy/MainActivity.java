@@ -26,7 +26,6 @@ import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.EditText;
 import android.widget.LinearLayout;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -151,7 +150,7 @@ public class MainActivity extends AppCompatActivity
         MapFragment mapFragment = (MapFragment) getFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
 
-        //To Change the position of setMyLocationEnabled Button
+      /*  //To Change the position of setMyLocationEnabled Button
 
         // Get the button view
         assert mapFragment.getView() != null;
@@ -162,7 +161,7 @@ public class MainActivity extends AppCompatActivity
         // position on right bottom
         rlp.addRule(RelativeLayout.ALIGN_PARENT_TOP, 0);
         rlp.addRule(RelativeLayout.ALIGN_PARENT_BOTTOM, RelativeLayout.TRUE);
-        rlp.setMargins(0, 0, 30, 30);
+        rlp.setMargins(0, 0, 30, 30);*/
 
         //Geofence Code
 
