@@ -5,7 +5,6 @@ import android.content.ContentResolver;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -28,10 +27,6 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Locale;
 
-import tourguide.tourguide.ChainTourGuide;
-import tourguide.tourguide.Overlay;
-import tourguide.tourguide.Sequence;
-import tourguide.tourguide.ToolTip;
 import tourguide.tourguide.TourGuide;
 
 public class ImageActivity extends AppCompatActivity {
@@ -79,7 +74,7 @@ public class ImageActivity extends AppCompatActivity {
         captureImage();
 
         //ShowcaseView on Camera ImageView
-        scv_eyeHolders();
+        ShowcaseView.scv_eyeHolders();
     }
 
     @Override
@@ -120,7 +115,7 @@ public class ImageActivity extends AppCompatActivity {
 
             fab.setImageResource(android.R.drawable.ic_menu_view);
             //ShowcaseView on Disc
-            scv_disc();
+            ShowcaseView.scv_disc();
 
         } else {        //second click
 
@@ -240,50 +235,5 @@ public class ImageActivity extends AppCompatActivity {
             }
             break;
         }
-    }
-
-    private void scv_eyeHolders() {
-        ChainTourGuide tourGuide1 = ChainTourGuide.init(this)
-                .setToolTip(new ToolTip()
-                        .setDescription("Aim at the leftmost corner of the left eye pupil in the image by dragging it")
-                        .setGravity(Gravity.BOTTOM)
-                        .setBackgroundColor(Color.parseColor("#c0392b"))
-                )
-                .setOverlay(new Overlay()
-                        .setBackgroundColor(Color.parseColor("#EE2c3e50"))
-                )
-                .playLater(mImageViewDragLeftEye);
-
-        ChainTourGuide tourGuide2 = ChainTourGuide.init(this)
-                .setToolTip(new ToolTip()
-                        .setDescription("Aim at the rightmost corner of the right eye pupil in the image by dragging it")
-                        .setGravity(Gravity.BOTTOM)
-                        .setBackgroundColor(Color.parseColor("#c0392b"))
-                )
-                .setOverlay(new Overlay()
-                        .setBackgroundColor(Color.parseColor("#EE2c3e50"))
-                )
-                .playLater(mImageViewDragRightEye);
-
-        Sequence sequence = new Sequence.SequenceBuilder()
-                .add(tourGuide1, tourGuide2)
-                .setDefaultOverlay(new Overlay()
-                )
-                .setDefaultPointer(null)
-                .setContinueMethod(Sequence.ContinueMethod.Overlay)
-                .build();
-
-        ChainTourGuide.init(this).playInSequence(sequence);
-    }
-
-    private void scv_disc() {
-        mTourGuideHandlerDisc = TourGuide.init(this).
-                with(TourGuide.Technique.Click)
-                .setToolTip(new ToolTip()
-                        .setDescription("Put it on the boundary of the compact disc (CD) in the image")
-                        .setGravity(Gravity.BOTTOM)
-                )
-                //   .setOverlay(new Overlay())
-                .playOn(mImageViewDragDisc);
     }
 }
