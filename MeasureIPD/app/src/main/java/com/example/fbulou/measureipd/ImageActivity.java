@@ -256,7 +256,7 @@ public class ImageActivity extends AppCompatActivity {
 
         ChainTourGuide tourGuide2 = ChainTourGuide.init(this)
                 .setToolTip(new ToolTip()
-                        .setDescription("Aim at the leftmost corner of the left eye pupil in the image by dragging it")
+                        .setDescription("Aim at the rightmost corner of the right eye pupil in the image by dragging it")
                         .setGravity(Gravity.BOTTOM)
                         .setBackgroundColor(Color.parseColor("#c0392b"))
                 )
