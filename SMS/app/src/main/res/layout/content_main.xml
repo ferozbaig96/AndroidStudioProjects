@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.fbulou.sms.MainActivity"
+    tools:showIn="@layout/activity_main">
+
+    <TextView
+        android:id="@+id/textViewPhoneNo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBaseline="@+id/editTextphoneNo"
+        android:layout_alignBottom="@+id/editTextphoneNo"
+        android:layout_alignParentStart="true"
+        android:text="Phone Number : "
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/editTextphoneNo"
+        android:layout_width="160dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentTop="true"
+        android:hint="+91"
+        android:maxLength="10"
+        android:inputType="number"
+        android:maxLines="1" />
+
+    <TextView
+        android:id="@+id/textViewMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignBottom="@+id/editTextMessage"
+        android:layout_alignParentStart="true"
+        android:text="Message : "
+        android:textSize="18sp" />
+
+    <EditText
+        android:id="@+id/editTextMessage"
+        android:layout_width="200dp"
+        android:layout_height="wrap_content"
+        android:layout_alignParentEnd="true"
+        android:layout_below="@+id/editTextphoneNo"
+        android:hint="Enter your message"
+        android:inputType="textMultiLine"
+        android:minLines="5" />
+
+</RelativeLayout>
