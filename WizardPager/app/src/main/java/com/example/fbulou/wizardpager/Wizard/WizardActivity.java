@@ -55,8 +55,6 @@ public class WizardActivity extends AppCompatActivity {
             finish();
         }
 
-        SaveSeenPref(); //Seen one time
-
         mButtonPrev = (Button) findViewById(R.id.mButtonPrevious);
         mButtonNext = (Button) findViewById(R.id.mButtonNext);
 
@@ -91,6 +89,7 @@ public class WizardActivity extends AppCompatActivity {
                 if (curPos == NUM_PAGES - 1)    //last Fragment
                 {
                     startActivity(new Intent(WizardActivity.this, MainActivity.class));
+                    SaveSeenPref(); //Seen one time
                     finish();
                 }
             }
