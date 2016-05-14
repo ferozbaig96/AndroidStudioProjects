@@ -1,0 +1,1 @@
+mm = pixels / ( TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, 1, getResources().getDisplayMetrics()) );
