@@ -118,7 +118,7 @@ public class MainActivity extends AppCompatActivity {
     public void SaveExternal(View view) {
 
         try {
-            File sdcard = Environment.getExternalStorageDirectory();
+            //File sdcard = Environment.getExternalStorageDirectory();
             //File directory = new File(sdcard.getAbsolutePath() + "/myFiles");
             File directory = new File("storage/sdcard1" + "/myFiles");
             directory.mkdirs();

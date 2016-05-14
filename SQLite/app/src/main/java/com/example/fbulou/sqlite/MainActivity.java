@@ -89,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
         String result = "";
 
-        if (cursor != null && (cursor.getCount() > 0)) {
+        if (cursor!=null && (cursor.getCount() > 0)) {
             do {
                 String id = cursor.getString(idColumn),
                         name = cursor.getString(nameColumn),
@@ -100,6 +100,7 @@ public class MainActivity extends AppCompatActivity {
             } while (cursor.moveToNext());
 
             mResultTextview.setText(result);
+	cursor.close();
 
         } else {
             Toast.makeText(this, "No Results to show", Toast.LENGTH_SHORT).show();
@@ -120,6 +121,7 @@ public class MainActivity extends AppCompatActivity {
 
     public void deleteDB(View view) {
         this.deleteDatabase("MyContacts");
+	mResultTextview.setText("");
 
         mAddContact.setEnabled(false);
         mDeleteContact.setEnabled(false);
