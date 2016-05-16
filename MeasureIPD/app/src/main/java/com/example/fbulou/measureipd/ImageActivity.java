@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.provider.MediaStore;
@@ -18,6 +19,8 @@ import android.util.TypedValue;
 import android.view.Gravity;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.Toast;
 
@@ -46,9 +49,18 @@ public class ImageActivity extends AppCompatActivity {
     int countFloatingActionButtonClick;
     TourGuide mTourGuideHandlerDisc;
 
+    static ImageActivity getInstance() {
+        return Instance;
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
+        //To hide the status bar
+        requestWindowFeature(Window.FEATURE_NO_TITLE);
+        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);
+
         setContentView(R.layout.activity_image);
 
         countFloatingActionButtonClick = 0;
@@ -71,10 +83,11 @@ public class ImageActivity extends AppCompatActivity {
         });
 
         enableDragAndDrop();
-        captureImage();
 
-        //ShowcaseView on Camera ImageView
-        ShowcaseView.scv_eyeHolders();
+        if (Build.VERSION.SDK_INT >= 23)  //Asking for permissions for post-Lollipop devices
+            permissionWriteExternalStorage();
+        else
+            captureImage();
     }
 
     @Override
@@ -97,7 +110,7 @@ public class ImageActivity extends AppCompatActivity {
             //Converting pixels to mm
             mImageEyesDistance /= TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, 1, getResources().getDisplayMetrics());
 
-           // Toast.makeText(ImageActivity.this, "Image IPD : " + mImageEyesDistance + " mm", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(ImageActivity.this, "Image IPD : " + mImageEyesDistance + " mm", Toast.LENGTH_SHORT).show();
 
             mImageViewDragDisc.setVisibility(View.VISIBLE);
             mImageViewDragLeftEye.setVisibility(View.GONE);
@@ -121,18 +134,14 @@ public class ImageActivity extends AppCompatActivity {
 
             //mImageViewDragDisc.setVisibility(View.GONE);
 
-           // Toast.makeText(ImageActivity.this, "Disc Diameter : " + mImageDiscDistance + " mm", Toast.LENGTH_SHORT).show();
+            // Toast.makeText(ImageActivity.this, "Disc Diameter : " + mImageDiscDistance + " mm", Toast.LENGTH_SHORT).show();
 
             float result = 120 * mImageEyesDistance / mImageDiscDistance;   // 120mm is the diameter of a CD
 
-            Toast t=Toast.makeText(ImageActivity.this, "Your Inter-Pupillary Distance : " + result + " mm", Toast.LENGTH_SHORT);
-            t.setGravity(Gravity.CENTER_HORIZONTAL,0,0);
+            Toast t = Toast.makeText(ImageActivity.this, "Your Inter-Pupillary Distance : " + result + " mm", Toast.LENGTH_SHORT);
+            t.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
             t.show();
         }
-    }
-
-    static ImageActivity getInstance() {
-        return Instance;
     }
 
     private void enableDragAndDrop() {
@@ -150,20 +159,18 @@ public class ImageActivity extends AppCompatActivity {
         File internal = Environment.getExternalStorageDirectory();
         File directory = new File(internal.getAbsolutePath() + "/Measure IPD/");
 
-        if (!directory.exists())
-            directory.mkdirs();
+        Boolean isDirectoryCreated = directory.exists();
+        if (!isDirectoryCreated)
+            isDirectoryCreated = directory.mkdirs();
+
+        if (!isDirectoryCreated)
+            Toast.makeText(ImageActivity.this, "Directory cannot be created in your device internal memory", Toast.LENGTH_SHORT).show();
 
         return new File(directory, filename);
     }
 
     //Use as it is
     void captureImage() {
-
-        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (permissionCheck == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
-        }
 
         Intent intent = new Intent(android.provider.MediaStore.ACTION_IMAGE_CAPTURE);
         File photo = null;
@@ -181,14 +188,23 @@ public class ImageActivity extends AppCompatActivity {
         startActivityForResult(intent, CAMERA_REQUESTCODE);
     }
 
-    //Use as it is
-    public void grabImage(ImageView imageView) {
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
 
-        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
-        if (permissionCheck == PackageManager.PERMISSION_DENIED) {
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+        if (requestCode == CAMERA_REQUESTCODE) {
+            if (resultCode == RESULT_OK) {
+                if (Build.VERSION.SDK_INT >= 23)  //Asking for permissions for post-Lollipop devices
+                    permissionReadExternalStorage();
+                else
+                    grabImage(mImageViewPhoto);
+            } else
+                finish();
         }
+    }
+
+    //Use as it is. Here, immediate to-be-called function is ShowcaseView.scv_eyeHolders();
+    public void grabImage(ImageView imageView) {
 
         this.getContentResolver().notifyChange(mImageURI, null);
         ContentResolver cr = this.getContentResolver();
@@ -200,18 +216,41 @@ public class ImageActivity extends AppCompatActivity {
             Toast.makeText(this, "Failed to load", Toast.LENGTH_SHORT).show();
             e.printStackTrace();
         }
+
+        //ShowcaseView on Camera ImageView
+        ShowcaseView.scv_eyeHolders();
     }
 
-    @Override
-    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
+    //-----------Post-Lollipop Devices Permissions-----------
 
-        if (requestCode == CAMERA_REQUESTCODE) {
-            if (resultCode == RESULT_OK) {
-                grabImage(mImageViewPhoto);
-            } else
-                finish();
-        }
+    //check for WRITE_EXTERNAL_STORAGE permission
+    void permissionWriteExternalStorage() {
+
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        if (permissionCheck == PackageManager.PERMISSION_DENIED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE))
+                Toast.makeText(ImageActivity.this, "We require this permission to save clicked photos to your device internal memory.", Toast.LENGTH_LONG).show();
+
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+        } else
+            captureImage();
+    }
+
+    //check for READ_EXTERNAL_STORAGE permission
+    void permissionReadExternalStorage() {
+
+        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
+        if (permissionCheck == PackageManager.PERMISSION_DENIED) {
+
+            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE))
+                Toast.makeText(ImageActivity.this, "We require this permission to load clicked photos from your device internal memory.", Toast.LENGTH_LONG).show();
+
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
+                    MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+        } else
+            grabImage(mImageViewPhoto);
     }
 
     @Override
@@ -222,16 +261,20 @@ public class ImageActivity extends AppCompatActivity {
             case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     captureImage();
-                } else
-                    Toast.makeText(ImageActivity.this, "Change your Settings to allow this app to write external storage", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ImageActivity.this, "Change your Settings to allow this app to access storage", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
             }
             break;
 
             case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
                 if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
                     grabImage(mImageViewPhoto);
-                } else
-                    Toast.makeText(ImageActivity.this, "Change your Settings to allow this app to read external storage", Toast.LENGTH_SHORT).show();
+                } else {
+                    Toast.makeText(ImageActivity.this, "Change your Settings to allow this app to access storage", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
             }
             break;
         }
