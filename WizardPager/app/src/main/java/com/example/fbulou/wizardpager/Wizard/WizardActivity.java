@@ -8,6 +8,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -33,12 +34,12 @@ public class WizardActivity extends AppCompatActivity {
 
     //Shared Preferences
     public boolean SeenPref() {
-        SharedPreferences sp = getPreferences(MODE_PRIVATE);
+        SharedPreferences sp = getSharedPreferences("spName",MODE_PRIVATE);
         return sp.getBoolean("seen", false);
     }
 
     public void SaveSeenPref() {
-        SharedPreferences.Editor spEditor = getPreferences(MODE_PRIVATE).edit();        // should use getSharedPreferences for more than a single value
+        SharedPreferences.Editor spEditor = getSharedPreferences("spName",MODE_PRIVATE).edit();
         spEditor.putBoolean("seen", true);
         spEditor.apply();
     }
@@ -48,6 +49,8 @@ public class WizardActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wizard);
+
+        Log.e("TAG",""+SeenPref());
 
         if (SeenPref())  //Checking for seen one time
         {
