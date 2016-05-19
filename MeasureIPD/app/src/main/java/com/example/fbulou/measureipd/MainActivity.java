@@ -3,15 +3,11 @@ package com.example.fbulou.measureipd;
 import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
-import android.support.v7.widget.Toolbar;
 import android.view.Gravity;
 import android.view.View;
 import android.widget.ImageView;
 
-import tourguide.tourguide.Overlay;
 import tourguide.tourguide.Pointer;
 import tourguide.tourguide.ToolTip;
 import tourguide.tourguide.TourGuide;
@@ -40,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
                 )
                 .setToolTip(new ToolTip()
                         .setTitle("Welcome!")
-                        .setDescription("Click a pic of your face while holding a compact disc (CD) close to your nose and chin")
+                        .setDescription("Click a pic of your face while holding a ATM/Credit/Debit card close to your nose and chin")
                         .setGravity(Gravity.TOP)
                 )
                 //   .setOverlay(new Overlay())

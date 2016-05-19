@@ -12,8 +12,6 @@ import android.os.Environment;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.util.TypedValue;
 import android.view.Gravity;
@@ -40,14 +38,16 @@ public class ImageActivity extends AppCompatActivity {
     ImageView mImageViewPhoto, mImageViewDragLeftEye, mImageViewDragRightEye, mImageViewDragDisc;
     FloatingActionButton fab;
 
-    private Uri mImageURI;
     static ImageActivity Instance;
+    InterfaceFunction interfaceFunction;
+    TourGuide mTourGuideHandlerDisc;
+
+    private Uri mImageURI;
     Eye e1, e2;
     float diffX, diffY;         //to enable dragging from the current touch (and not from the view's center ,i.e default)
     float mImageEyesDistance;
     float mImageDiscDistance;   //Initialised in findDistanceOrResult, Modified in MyTouchZoomDragDropListener class
     int countFloatingActionButtonClick;
-    TourGuide mTourGuideHandlerDisc;
 
     static ImageActivity getInstance() {
         return Instance;
@@ -85,6 +85,7 @@ public class ImageActivity extends AppCompatActivity {
         enableDragAndDrop();
 
         if (Build.VERSION.SDK_INT >= 23)  //Asking for permissions for post-Lollipop devices
+           /* permissionWriteExternalStorage();*/
             permissionWriteExternalStorage();
         else
             captureImage();
@@ -116,9 +117,12 @@ public class ImageActivity extends AppCompatActivity {
             mImageViewDragLeftEye.setVisibility(View.GONE);
             mImageViewDragRightEye.setVisibility(View.GONE);
 
-            mImageDiscDistance = mImageViewDragDisc.getHeight();
+            mImageDiscDistance = mImageViewDragDisc.getWidth();
             //Converting pixels to mm
             mImageDiscDistance /= TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, 1, getResources().getDisplayMetrics());
+            Toast.makeText(ImageActivity.this, "" + mImageDiscDistance, Toast.LENGTH_SHORT).show();
+            Toast.makeText(ImageActivity.this, "" + mImageViewDragDisc.getHeight() / TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, 1, getResources().getDisplayMetrics()), Toast.LENGTH_SHORT).show();
+
 
             //changing layout of mImageViewDragDisc to MATCH_PARENT,MATCH_PARENT
             ViewGroup.LayoutParams layoutParams = mImageViewDragDisc.getLayoutParams();
@@ -136,7 +140,7 @@ public class ImageActivity extends AppCompatActivity {
 
             // Toast.makeText(ImageActivity.this, "Disc Diameter : " + mImageDiscDistance + " mm", Toast.LENGTH_SHORT).show();
 
-            float result = 120 * mImageEyesDistance / mImageDiscDistance;   // 120mm is the diameter of a CD
+            float result = 85.6f * mImageEyesDistance / mImageDiscDistance;   // 85.60mm is the length of Debit Card
 
             Toast t = Toast.makeText(ImageActivity.this, "Your Inter-Pupillary Distance : " + result + " mm", Toast.LENGTH_SHORT);
             t.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
@@ -223,36 +227,6 @@ public class ImageActivity extends AppCompatActivity {
 
     //-----------Post-Lollipop Devices Permissions-----------
 
-    //check for WRITE_EXTERNAL_STORAGE permission
-    void permissionWriteExternalStorage() {
-
-        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        if (permissionCheck == PackageManager.PERMISSION_DENIED) {
-
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.WRITE_EXTERNAL_STORAGE))
-                Toast.makeText(ImageActivity.this, "We require this permission to save clicked photos to your device internal memory.", Toast.LENGTH_LONG).show();
-
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.WRITE_EXTERNAL_STORAGE},
-                    MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
-        } else
-            captureImage();
-    }
-
-    //check for READ_EXTERNAL_STORAGE permission
-    void permissionReadExternalStorage() {
-
-        int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.READ_EXTERNAL_STORAGE);
-        if (permissionCheck == PackageManager.PERMISSION_DENIED) {
-
-            if (ActivityCompat.shouldShowRequestPermissionRationale(this, Manifest.permission.READ_EXTERNAL_STORAGE))
-                Toast.makeText(ImageActivity.this, "We require this permission to load clicked photos from your device internal memory.", Toast.LENGTH_LONG).show();
-
-            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.READ_EXTERNAL_STORAGE},
-                    MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
-        } else
-            grabImage(mImageViewPhoto);
-    }
-
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
@@ -279,4 +253,35 @@ public class ImageActivity extends AppCompatActivity {
             break;
         }
     }
+
+    // Asking Permissions using PostLollipopPermissions.java
+
+    void permissionWriteExternalStorage() {
+        interfaceFunction = new InterfaceFunction() {
+            @Override
+            public void f() {
+                //TODO call my desired functiton
+                captureImage();
+            }
+        };
+
+        PostLollipopPermissons.askPermission(this, this, interfaceFunction, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                "We require this permission to save clicked photos to your device internal memory",
+                MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+    }
+
+    void permissionReadExternalStorage() {
+        interfaceFunction = new InterfaceFunction() {
+            @Override
+            public void f() {
+                //TODO call my desired functiton
+                grabImage(mImageViewPhoto);
+            }
+        };
+
+        PostLollipopPermissons.askPermission(this, this, interfaceFunction, Manifest.permission.READ_EXTERNAL_STORAGE,
+                "We require this permission to load clicked photos from your device internal memory",
+                MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+    }
+
 }

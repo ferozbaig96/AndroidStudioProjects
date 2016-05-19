@@ -48,7 +48,7 @@ public class ShowcaseView {
         ImageActivity.getInstance().mTourGuideHandlerDisc = TourGuide.init(ImageActivity.getInstance())
                 .with(TourGuide.Technique.Click)
                 .setToolTip(new ToolTip()
-                        .setDescription("Put it on the boundary of the compact disc (CD) in the image")
+                        .setDescription("Put it on the boundary of the ATM/Debit/Credit card in the image")
                         .setGravity(Gravity.BOTTOM)
                 )
                 //   .setOverlay(new Overlay())
