@@ -5,4 +5,5 @@
     <string name="title_activity_image">ImageActivity</string>
     <string name="takenphoto">takenPhoto</string>
     <string name="draggable_imageview">Draggable ImageView</string>
+    <string name="title_activity_dioptre">DioptreActivity</string>
 </resources>

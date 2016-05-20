@@ -46,8 +46,9 @@ public class ImageActivity extends AppCompatActivity {
     Eye e1, e2;
     float diffX, diffY;         //to enable dragging from the current touch (and not from the view's center ,i.e default)
     float mImageEyesDistance;
-    float mImageDiscDistance;   //Initialised in findDistanceOrResult, Modified in MyTouchZoomDragDropListener class
+    float mImageDiscDistance;   //Initialised in findDistanceOrResult, Modified in MyTouchZoomDragDropRotateListener class
     int countFloatingActionButtonClick;
+    int mDiscHeight, mDiscWidth;
 
     static ImageActivity getInstance() {
         return Instance;
@@ -117,11 +118,12 @@ public class ImageActivity extends AppCompatActivity {
             mImageViewDragLeftEye.setVisibility(View.GONE);
             mImageViewDragRightEye.setVisibility(View.GONE);
 
-            mImageDiscDistance = mImageViewDragDisc.getWidth();
+            mImageDiscDistance = mDiscWidth = mImageViewDragDisc.getWidth();
+            mDiscHeight = mImageViewDragDisc.getHeight();
             //Converting pixels to mm
             mImageDiscDistance /= TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, 1, getResources().getDisplayMetrics());
             Toast.makeText(ImageActivity.this, "" + mImageDiscDistance, Toast.LENGTH_SHORT).show();
-            Toast.makeText(ImageActivity.this, "" + mImageViewDragDisc.getHeight() / TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, 1, getResources().getDisplayMetrics()), Toast.LENGTH_SHORT).show();
+            Toast.makeText(ImageActivity.this, "" + mDiscHeight / TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, 1, getResources().getDisplayMetrics()), Toast.LENGTH_SHORT).show();
 
 
             //changing layout of mImageViewDragDisc to MATCH_PARENT,MATCH_PARENT
@@ -145,6 +147,8 @@ public class ImageActivity extends AppCompatActivity {
             Toast t = Toast.makeText(ImageActivity.this, "Your Inter-Pupillary Distance : " + result + " mm", Toast.LENGTH_SHORT);
             t.setGravity(Gravity.CENTER_HORIZONTAL, 0, 0);
             t.show();
+
+            startActivity(new Intent(this, DioptreActivity.class));
         }
     }
 
@@ -153,7 +157,7 @@ public class ImageActivity extends AppCompatActivity {
         mImageViewDragLeftEye.getRootView().setOnDragListener(new MyDragListener());
         mImageViewDragRightEye.setOnTouchListener(new MyTouchListener());
         mImageViewDragRightEye.getRootView().setOnDragListener(new MyDragListener());
-        mImageViewDragDisc.setOnTouchListener(new MyTouchZoomDragDropListener());
+        mImageViewDragDisc.setOnTouchListener(new MyTouchZoomDragDropRotateListener());
     }
 
     //Use as it is

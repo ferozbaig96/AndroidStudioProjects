@@ -29,4 +29,8 @@ dependencies {
     compile('com.github.worker8:tourguide:1.0.17-SNAPSHOT@aar') {
         transitive = true
     }
+    //RecyclerView
+    compile 'com.android.support:recyclerview-v7:23.1.1'
+    //CardView
+    compile 'com.android.support:cardview-v7:23.1.1'
 }

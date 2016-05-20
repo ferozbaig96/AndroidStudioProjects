@@ -3,8 +3,6 @@ package com.example.fbulou.myrecyclerview;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.support.v7.widget.DefaultItemAnimator;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.StaggeredGridLayoutManager;
 
@@ -20,7 +18,7 @@ public class MainActivity extends AppCompatActivity {
 
         RecyclerView mRecyclerView = (RecyclerView) findViewById(R.id.id_mRecyclerView);
 
-        MyAdapter mAdapter = new MyAdapter(this, getData());
+        MyRVAdapter mAdapter = new MyRVAdapter(this, getData());
         mRecyclerView.setAdapter(mAdapter);
 
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(3,1));

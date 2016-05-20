@@ -29,6 +29,10 @@
             android:label="@string/title_activity_image"
             android:screenOrientation="portrait"
             android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".DioptreActivity"
+            android:label="@string/title_activity_dioptre"
+            android:theme="@style/AppTheme.NoActionBar"></activity>
     </application>
 
 </manifest>

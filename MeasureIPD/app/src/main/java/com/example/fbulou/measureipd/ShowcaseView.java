@@ -13,7 +13,7 @@ public class ShowcaseView {
     static void scv_eyeHolders() {
         ChainTourGuide tourGuide1 = ChainTourGuide.init(ImageActivity.getInstance())
                 .setToolTip(new ToolTip()
-                        .setDescription("Aim at the leftmost corner of the left eye pupil in the image by dragging it")
+                        .setDescription("Aim at the center of the left eye pupil in the image by dragging it")
                         .setGravity(Gravity.BOTTOM)
                         .setBackgroundColor(Color.parseColor("#c0392b"))
                 )
@@ -24,7 +24,7 @@ public class ShowcaseView {
 
         ChainTourGuide tourGuide2 = ChainTourGuide.init(ImageActivity.getInstance())
                 .setToolTip(new ToolTip()
-                        .setDescription("Aim at the rightmost corner of the right eye pupil in the image by dragging it")
+                        .setDescription("Aim at the center of the right eye pupil in the image by dragging it")
                         .setGravity(Gravity.BOTTOM)
                         .setBackgroundColor(Color.parseColor("#c0392b"))
                 )

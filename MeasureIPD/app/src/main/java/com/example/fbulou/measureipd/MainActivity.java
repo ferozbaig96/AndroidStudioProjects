@@ -36,7 +36,7 @@ public class MainActivity extends AppCompatActivity {
                 )
                 .setToolTip(new ToolTip()
                         .setTitle("Welcome!")
-                        .setDescription("Click a pic of your face while holding a ATM/Credit/Debit card close to your nose and chin")
+                        .setDescription("Click a pic of your face while holding a ATM/Credit/Debit card under your nose")
                         .setGravity(Gravity.TOP)
                 )
                 //   .setOverlay(new Overlay())
