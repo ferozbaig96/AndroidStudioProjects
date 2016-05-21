@@ -1,13 +1,13 @@
 package com.example.fbulou.measureipd;
 
 import android.content.Context;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.Collections;
 import java.util.List;
@@ -40,7 +40,15 @@ public class MyRVAdapter extends RecyclerView.Adapter<MyRVAdapter.MyViewHolder> 
             @Override
             public void onClick(View v) {
                 DioptreActivity.getInstance().mIndex = Double.parseDouble(curObj.index);
-                Toast.makeText(DioptreActivity.getInstance(), curObj.index, Toast.LENGTH_SHORT).show();
+
+                int lenCylin = DioptreActivity.getInstance().mEdittextCylindrical.getText().length();
+                int lenAxis = DioptreActivity.getInstance().mEdittextAxis.getText().length();
+
+                if (lenAxis + lenCylin > 0 && lenAxis * lenCylin == 0) {
+                    Snackbar.make(DioptreActivity.getInstance().fab, "Provide both Cylindrical Power and Axis or none", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+                }
+
             }
         });
         //holder.icon.setImageResource(curObj.imageID);

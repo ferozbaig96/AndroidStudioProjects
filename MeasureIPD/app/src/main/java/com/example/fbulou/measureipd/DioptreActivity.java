@@ -16,6 +16,7 @@ import java.util.List;
 public class DioptreActivity extends AppCompatActivity {
 
     static DioptreActivity Instance;
+    FloatingActionButton fab;
     RecyclerView mRecyclerView;
     EditText mEdittextSpherical, mEdittextCylindrical, mEdittextAxis;
     double mIndex;
@@ -34,8 +35,7 @@ public class DioptreActivity extends AppCompatActivity {
         mEdittextCylindrical = (EditText) findViewById(R.id.mCylindrical);
         mEdittextAxis = (EditText) findViewById(R.id.mAxis);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        assert fab != null;
+        fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
