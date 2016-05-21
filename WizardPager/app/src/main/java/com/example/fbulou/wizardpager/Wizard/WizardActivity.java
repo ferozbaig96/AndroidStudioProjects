@@ -8,7 +8,6 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -33,14 +32,25 @@ public class WizardActivity extends AppCompatActivity {
     ImageView d1, d2, d3, d4, d5;
 
     //Shared Preferences
-    public boolean SeenPref() {
-        SharedPreferences sp = getSharedPreferences("spName",MODE_PRIVATE);
+    public boolean seenPref() {
+        SharedPreferences sp = getSharedPreferences("spName", MODE_PRIVATE);
         return sp.getBoolean("seen", false);
     }
 
-    public void SaveSeenPref() {
-        SharedPreferences.Editor spEditor = getSharedPreferences("spName",MODE_PRIVATE).edit();
+    public void saveSeenPref() {
+        SharedPreferences.Editor spEditor = getSharedPreferences("spName", MODE_PRIVATE).edit();
         spEditor.putBoolean("seen", true);
+        spEditor.apply();
+    }
+
+    public int wannaSeeAgainPref() {
+        SharedPreferences sp = getSharedPreferences("spAgainName", MODE_PRIVATE);
+        return sp.getInt("seenAgain", 0);
+    }
+
+    public void saveWannaSeeAgainPref(int val) {
+        SharedPreferences.Editor spEditor = getSharedPreferences("spAgainName", MODE_PRIVATE).edit();
+        spEditor.putInt("seenAgain", val);
         spEditor.apply();
     }
 
@@ -50,12 +60,14 @@ public class WizardActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_wizard);
 
-        Log.e("TAG",""+SeenPref());
-
-        if (SeenPref())  //Checking for seen one time
+        if (seenPref())  //Checking if Wizard has been one time
         {
-            startActivity(new Intent(this, MainActivity.class));
-            finish();
+            if (wannaSeeAgainPref() == 1) {     //Checking if Wizard is asked to show again by the user
+                saveWannaSeeAgainPref(2);   //To handle Wizard Finish.
+            } else {
+                startActivity(new Intent(this, MainActivity.class));
+                finish();
+            }
         }
 
         mButtonPrev = (Button) findViewById(R.id.mButtonPrevious);
@@ -91,9 +103,13 @@ public class WizardActivity extends AppCompatActivity {
 
                 if (curPos == NUM_PAGES - 1)    //last Fragment
                 {
-                    startActivity(new Intent(WizardActivity.this, MainActivity.class));
-                    SaveSeenPref(); //Seen one time
-                    finish();
+                    if (wannaSeeAgainPref() == 2)
+                        finish();
+                    else {
+                        startActivity(new Intent(WizardActivity.this, MainActivity.class));
+                        saveSeenPref(); //Seen one time
+                        finish();
+                    }
                 }
             }
         });

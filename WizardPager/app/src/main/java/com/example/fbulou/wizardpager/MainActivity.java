@@ -35,11 +35,10 @@ public class MainActivity extends AppCompatActivity {
                 Snackbar.make(view, "Showing Wizard Again", Snackbar.LENGTH_LONG)
                         .setAction("Action", null).show();
 
-                SharedPreferences.Editor spEditor = getSharedPreferences("spName",MODE_PRIVATE).edit();
-                spEditor.putBoolean("seen", false);
+                SharedPreferences.Editor spEditor = getSharedPreferences("spAgainName", MODE_PRIVATE).edit();
+                spEditor.putInt("seenAgain", 1);
                 spEditor.apply();
                 startActivity(new Intent(MainActivity.this, WizardActivity.class));
-                finish();
             }
         });
     }
