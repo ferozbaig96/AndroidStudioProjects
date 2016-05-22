@@ -11,12 +11,12 @@
     tools:context="com.example.fbulou.measureipd.DioptreActivity"
     tools:showIn="@layout/activity_dioptre">
 
-    <ImageView
+    <LinearLayout
+        android:id="@+id/mLinearLayoutLens"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="10dp"
-        android:src="@drawable/ic_launcher1" />
+        android:orientation="vertical">
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/mLinearLayoutSpherCylinAx"

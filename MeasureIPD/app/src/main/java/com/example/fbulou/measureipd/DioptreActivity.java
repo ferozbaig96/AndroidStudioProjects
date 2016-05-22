@@ -1,5 +1,8 @@
 package com.example.fbulou.measureipd;
 
+import android.graphics.Bitmap;
+import android.graphics.Canvas;
+import android.graphics.Point;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -7,8 +10,10 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DefaultItemAnimator;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.view.Display;
 import android.view.View;
 import android.widget.EditText;
+import android.widget.LinearLayout;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +22,14 @@ public class DioptreActivity extends AppCompatActivity {
 
     static DioptreActivity Instance;
     FloatingActionButton fab;
+    LinearLayout mLensLinearLayout;
     RecyclerView mRecyclerView;
     EditText mEdittextSpherical, mEdittextCylindrical, mEdittextAxis;
     double mIndex;
+
+    Bitmap bg;
+    Canvas canvas;
+    int deviceWidth;
 
     static DioptreActivity getInstance() {
         return Instance;
@@ -34,6 +44,7 @@ public class DioptreActivity extends AppCompatActivity {
         mEdittextSpherical = (EditText) findViewById(R.id.mSpherical);
         mEdittextCylindrical = (EditText) findViewById(R.id.mCylindrical);
         mEdittextAxis = (EditText) findViewById(R.id.mAxis);
+        mLensLinearLayout = (LinearLayout) findViewById(R.id.mLinearLayoutLens);
 
         fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -45,15 +56,22 @@ public class DioptreActivity extends AppCompatActivity {
         });
 
         mRecyclerView = (RecyclerView) findViewById(R.id.id_mRecyclerView);
-
         MyRVAdapter mAdapter = new MyRVAdapter(this, getData());
         mRecyclerView.setAdapter(mAdapter);
-
-        //  mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, 1));
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
         mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
+        createCanvas();
+    }
+
+    private void createCanvas() {
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        deviceWidth = size.x;
+
+        bg = Bitmap.createBitmap(deviceWidth, 350, Bitmap.Config.ARGB_8888);
+        canvas = new Canvas(bg);
     }
 
     public static List<Information> getData() {

@@ -1,6 +1,8 @@
 package com.example.fbulou.measureipd;
 
 import android.content.Context;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.BitmapDrawable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -33,17 +35,30 @@ public class MyRVAdapter extends RecyclerView.Adapter<MyRVAdapter.MyViewHolder> 
     public void onBindViewHolder(final MyViewHolder holder, int position) {
 
         final Information curObj = data.get(position);
-        holder.title.setText(curObj.title);
+        holder.btnTitle.setText(curObj.title);
         holder.index.setText(curObj.index);
 
-        holder.title.setOnClickListener(new View.OnClickListener() {
+        holder.btnTitle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 DioptreActivity.getInstance().mIndex = Double.parseDouble(curObj.index);
 
                 int lenCylin = DioptreActivity.getInstance().mEdittextCylindrical.getText().length();
                 int lenAxis = DioptreActivity.getInstance().mEdittextAxis.getText().length();
+                String strSph = DioptreActivity.getInstance().mEdittextSpherical.getText().toString();
+                float Sph = 0;
 
+                if (strSph.length() != 0)
+                    Sph = Float.parseFloat(strSph);
+                else
+                    Snackbar.make(DioptreActivity.getInstance().fab, "Provide both Spherical power", Snackbar.LENGTH_LONG)
+                            .setAction("Action", null).show();
+
+                DioptreActivity.getInstance().canvas.drawColor(0, PorterDuff.Mode.CLEAR);
+                DrawLens.showLens(DioptreActivity.getInstance().canvas, (int) (Sph * 100), 50);
+                DioptreActivity.getInstance().mLensLinearLayout.setBackground(new BitmapDrawable(DioptreActivity.getInstance().bg));
+
+                //Validation of Cylindrical Power and Cylindrical Axis
                 if (lenAxis + lenCylin > 0 && lenAxis * lenCylin == 0) {
                     Snackbar.make(DioptreActivity.getInstance().fab, "Provide both Cylindrical Power and Axis or none", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
@@ -61,14 +76,14 @@ public class MyRVAdapter extends RecyclerView.Adapter<MyRVAdapter.MyViewHolder> 
 
     class MyViewHolder extends RecyclerView.ViewHolder {
 
-        Button title;
+        Button btnTitle;
         TextView index;
         //ImageView icon;
 
         public MyViewHolder(View itemView) {
             super(itemView);
 
-            this.title = (Button) itemView.findViewById(R.id.id_RVtitle);
+            this.btnTitle = (Button) itemView.findViewById(R.id.id_RVtitle);
             this.index = (TextView) itemView.findViewById(R.id.id_RVindex);
             //icon = (ImageView) itemView.findViewById(R.id.id_RVicon);
         }
