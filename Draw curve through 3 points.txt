@@ -1,0 +1,31 @@
+
+/* 	For points A,B,C . Getting control point for B
+
+        x1 = getControlPoint(a.x, b.x, c.x);
+        y1 = getControlPoint(a.y, b.y, c.y);
+*/
+
+    int getControlPoint(int z0, int zc, int z2) {
+        return 2 * zc - (z0 / 2) - (z2 / 2);
+    }
+
+-------------------------------------
+Let P0, P1, P2 be the control points, and Pc be your fixed point you want the curve to pass through.
+
+Then the Bezier curve is defined by
+
+P(t) = P0*t^2 + P1*2*t*(1-t) + P2*(1-t)^2
+...where t goes from zero to 1.
+
+There are an infinite number of answers to your question, since it might pass through your point for any value of t... So just pick one, like t=0.5, and solve for P1:
+
+Pc = P0*.25 + P1*2*.25 + P2*.25
+
+P1 = (Pc - P0*.25 - P2*.25)/.5
+
+   = 2*Pc - P0/2 - P2/2
+There the "P" values are (x,y) pairs, so just apply the equation once for x and once for y:
+
+x1 = 2*xc - x0/2 - x2/2
+y1 = 2*yc - y0/2 - y2/2
+...where (xc,yc) is the point you want it to pass through, (x0,y0) is the start point, and (x2,y2) is the end point. This will give you a Bezier that passes through (xc,yc) at t=0.5.

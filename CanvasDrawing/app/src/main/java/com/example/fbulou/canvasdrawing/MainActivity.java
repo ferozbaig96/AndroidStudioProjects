@@ -6,6 +6,7 @@ import android.graphics.Canvas;
 import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
+import android.graphics.Point;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -23,12 +24,17 @@ public class MainActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        Bitmap bg = Bitmap.createBitmap(480, 800, Bitmap.Config.ARGB_8888);
+        Bitmap bg = Bitmap.createBitmap(480, 600, Bitmap.Config.ARGB_8888);
         Canvas canvas = new Canvas(bg);
 
         mDraw(canvas);
         LinearLayout ll = (LinearLayout) findViewById(R.id.mLens);
         ll.setBackground(new BitmapDrawable(bg));
+    }
+
+    //For points A,B,C . Getting control point for B
+    int getControlPoint(int z0, int zc, int z2) {
+        return 2 * zc - (z0 / 2) - (z2 / 2);
     }
 
     void mDraw(Canvas canvas) {
@@ -42,29 +48,33 @@ public class MainActivity extends AppCompatActivity {
         paintPath.setStrokeWidth(3);
         paintPath.setAntiAlias(true);
 
-        int endThickness = 50, centerThickness = 25;
-        int x1, x2, x3, y1, y2, y3;
+        int endThickness = 100, centerThickness = 10;
 
-        x1 = y1 = 200;
-        x2 = 150;
-        y2 = 400;
-        x3 = 200;
-        y3 = 600;
+        Point a = new Point(100, 0);
+        Point b = new Point(50, 150);
+        Point c = new Point(100, 300);
 
-        path.moveTo(x1, y1);
+        //To calculate the respective control point for point b so curve passes through it
+        //http://stackoverflow.com/questions/6711707/draw-a-quadratic-b%C3%A9zier-curve-through-three-given-points
+        int x1, y1;
 
-        path.quadTo(x2, y2, x3, y3);
+        path.moveTo(a.x, a.y);
 
-        path.lineTo(x3 + endThickness, y3);
+        x1 = getControlPoint(a.x, b.x, c.x);
+        y1 = getControlPoint(a.y, b.y, c.y);
+        path.quadTo(x1, y1, c.x, c.y);
 
-        path.quadTo(x2 + centerThickness, y2, x1 + endThickness, y1);
+        path.lineTo(c.x + endThickness, c.y);
+
+        x1 = getControlPoint(a.x + endThickness, b.x + centerThickness, c.x + endThickness);
+        y1 = getControlPoint(a.y, b.y, c.y);
+        path.quadTo(x1, y1, a.x + endThickness, a.y);
 
         path.close();
 
+        canvas.drawColor(Color.GREEN);
         canvas.drawPath(path, paintPath);
-
     }
-
 
     // To use this, change setContentView(new MyView(this));
     public class MyView extends View {
