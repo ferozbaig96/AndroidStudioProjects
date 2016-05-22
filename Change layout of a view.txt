@@ -1,0 +1,7 @@
+
+//changing layout of mImageViewDragDisc to MATCH_PARENT,MATCH_PARENT
+
+            ViewGroup.LayoutParams layoutParams = mImageViewDragDisc.getLayoutParams();
+            layoutParams.height = ViewGroup.LayoutParams.MATCH_PARENT;
+            layoutParams.width = ViewGroup.LayoutParams.MATCH_PARENT;
+            mImageViewDragDisc.setLayoutParams(layoutParams);
