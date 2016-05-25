@@ -122,9 +122,7 @@ public class ImageActivity extends AppCompatActivity {
             mDiscHeight = mImageViewDragDisc.getHeight();
             //Converting pixels to mm
             mImageDiscDistance /= TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, 1, getResources().getDisplayMetrics());
-            Toast.makeText(ImageActivity.this, "" + mImageDiscDistance, Toast.LENGTH_SHORT).show();
-            Toast.makeText(ImageActivity.this, "" + mDiscHeight / TypedValue.applyDimension(TypedValue.COMPLEX_UNIT_MM, 1, getResources().getDisplayMetrics()), Toast.LENGTH_SHORT).show();
-
+            // Toast.makeText(ImageActivity.this, "" + mImageDiscDistance, Toast.LENGTH_SHORT).show();
 
             //changing layout of mImageViewDragDisc to MATCH_PARENT,MATCH_PARENT
             ViewGroup.LayoutParams layoutParams = mImageViewDragDisc.getLayoutParams();

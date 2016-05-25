@@ -70,7 +70,7 @@ public class DioptreActivity extends AppCompatActivity {
         display.getSize(size);
         deviceWidth = size.x;
 
-        bg = Bitmap.createBitmap(deviceWidth, 350, Bitmap.Config.ARGB_8888);
+        bg = Bitmap.createBitmap(deviceWidth, 320, Bitmap.Config.ARGB_8888);
         canvas = new Canvas(bg);
     }
 

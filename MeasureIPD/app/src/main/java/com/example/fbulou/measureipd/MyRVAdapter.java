@@ -51,12 +51,14 @@ public class MyRVAdapter extends RecyclerView.Adapter<MyRVAdapter.MyViewHolder> 
                 if (strSph.length() != 0)
                     Sph = Float.parseFloat(strSph);
                 else
-                    Snackbar.make(DioptreActivity.getInstance().fab, "Provide both Spherical power", Snackbar.LENGTH_LONG)
+                    Snackbar.make(DioptreActivity.getInstance().fab, "Provide the Spherical power", Snackbar.LENGTH_LONG)
                             .setAction("Action", null).show();
 
                 DioptreActivity.getInstance().canvas.drawColor(0, PorterDuff.Mode.CLEAR);
-                DrawLens.showLens(DioptreActivity.getInstance().canvas, (int) (Sph * 100), 50);
-                DioptreActivity.getInstance().mLensLinearLayout.setBackground(new BitmapDrawable(DioptreActivity.getInstance().bg));
+                DrawLens.showLens(DioptreActivity.getInstance().canvas, (int) (Sph * 100), (int) (Sph * 10));
+                DioptreActivity.getInstance().mLensLinearLayout.setBackground(
+                        new BitmapDrawable(DioptreActivity.getInstance().getResources(), DioptreActivity.getInstance().bg)
+                );
 
                 //Validation of Cylindrical Power and Cylindrical Axis
                 if (lenAxis + lenCylin > 0 && lenAxis * lenCylin == 0) {

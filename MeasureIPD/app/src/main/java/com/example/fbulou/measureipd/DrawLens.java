@@ -5,11 +5,17 @@ import android.graphics.Color;
 import android.graphics.Paint;
 import android.graphics.Path;
 import android.graphics.Point;
-import android.util.Log;
 
 public class DrawLens {
 
-    static int widthby2 = DioptreActivity.getInstance().deviceWidth / 2;
+    static int widthBy2 = DioptreActivity.getInstance().deviceWidth / 2;
+
+    //For points A,B,C . Getting control point for B
+    //http://stackoverflow.com/questions/6711707/draw-a-quadratic-b%C3%A9zier-curve-through-three-given-points
+
+    static int getControlPoint(int z0, int zc, int z2) {
+        return 2 * zc - (z0 / 2) - (z2 / 2);
+    }
 
     static void showLens(Canvas canvas, int endThickness, int centerThickness) {
         Paint paint = new Paint();
@@ -20,31 +26,29 @@ public class DrawLens {
         paint.setStrokeWidth(3);
         paint.setAntiAlias(true);
 
-        Log.e("TAG", "" + widthby2);
+        widthBy2=80;
 
-        Point a = new Point(widthby2 + 25, 0);
-        Point b = new Point(widthby2 - 25, 150);
-        Point c = new Point(widthby2 + 25, 300);
+        Point a = new Point(widthBy2, 0);
+        Point b = new Point(widthBy2 - 50, 150);
+        Point c = new Point(widthBy2, 300);
 
         //To calculate the respective control point for point b so curve passes through it
-        //http://stackoverflow.com/questions/6711707/draw-a-quadratic-b%C3%A9zier-curve-through-three-given-points
         int x1, y1;
 
         path.moveTo(a.x, a.y);
 
-        x1 = 2 * b.x - (a.x / 2) - (c.x / 2);
-        y1 = 2 * b.y - (a.y / 2) - (c.y / 2);
+        x1 = getControlPoint(a.x, b.x, c.x);
+        y1 = getControlPoint(a.y, b.y, c.y);
         path.quadTo(x1, y1, c.x, c.y);
 
         path.lineTo(c.x + endThickness, c.y);
 
-        x1 = 2 * (b.x + centerThickness) - ((c.x + endThickness) / 2) - ((a.x + endThickness) / 2);
-        y1 = 2 * b.y - (c.y / 2) - (a.y / 2);
+        x1 = getControlPoint(a.x + endThickness, b.x + centerThickness, c.x + endThickness);
+        y1 = getControlPoint(a.y, b.y, c.y);
         path.quadTo(x1, y1, a.x + endThickness, a.y);
 
         path.close();
 
-        canvas.drawColor(Color.BLUE);
         canvas.drawPath(path, paint);
     }
 }
