@@ -16,6 +16,8 @@ import android.widget.LinearLayout;
 
 public class MainActivity extends AppCompatActivity {
 
+    LinearLayout ll;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -28,8 +30,8 @@ public class MainActivity extends AppCompatActivity {
         Canvas canvas = new Canvas(bg);
 
         mDraw(canvas);
-        LinearLayout ll = (LinearLayout) findViewById(R.id.mLens);
-        ll.setBackground(new BitmapDrawable(bg));
+        ll = (LinearLayout) findViewById(R.id.mLens);
+        ll.setBackground(new BitmapDrawable(getResources(),bg));
     }
 
     //For points A,B,C . Getting control point for B
@@ -71,8 +73,6 @@ public class MainActivity extends AppCompatActivity {
         path.quadTo(x1, y1, a.x + endThickness, a.y);
 
         path.close();
-
-        canvas.drawColor(Color.GREEN);
         canvas.drawPath(path, paintPath);
     }
 
