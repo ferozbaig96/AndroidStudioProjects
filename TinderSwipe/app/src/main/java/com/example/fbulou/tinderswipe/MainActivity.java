@@ -27,6 +27,16 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
+/*
+	Mixture of : 
+
+	https://github.com/Diolor/Swipecards
+
+	and
+
+	http://blog.nkdroidsolutions.com/android-swipe-cards-like-tinder-app/
+*/
+
     Button left, right;
     public static MyAppAdapter myAppAdapter;
     public static MyViewHolder viewHolder;
