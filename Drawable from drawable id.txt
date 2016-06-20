@@ -1,0 +1,2 @@
+Drawable drawable = ResourcesCompat.getDrawable(getResources(), R.drawable.name, null);
+
