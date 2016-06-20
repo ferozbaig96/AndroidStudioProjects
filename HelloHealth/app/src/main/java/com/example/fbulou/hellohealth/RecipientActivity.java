@@ -17,6 +17,7 @@ import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.telephony.SmsManager;
+import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -97,9 +98,9 @@ public class RecipientActivity extends AppCompatActivity {
 
             Cursor cursor = null;
 
-            // if(bloodGroupSelected.equals("O+"))
-            cursor = contactsDB.rawQuery("SELECT * FROM contacts", null);
-
+            //problems due to spinner maybe coz of CharSequence . Notice the single quotes , _ sign and LIKE clause here
+            //Otherwise for name id etc which are strings or integers, you can use db.rawQuery(query,selectionArgs) and = sign with ? for selectionArgs
+            cursor = contactsDB.rawQuery("SELECT * FROM contacts WHERE bg LIKE '_" + bloodGroupSelected + "_'", null);
 
             int nameColumn = cursor.getColumnIndex("name"),
                     contactColumn = cursor.getColumnIndex("contact"),
@@ -115,9 +116,7 @@ public class RecipientActivity extends AppCompatActivity {
                     contact = cursor.getString(contactColumn);
 
                     String bg = cursor.getString(bloodGroupColumn);
-                    //result = result + name + " - " + contact + " " + bg + " \n";
-
-                    result = result + name + " - " + contact + " " + " \n";
+                    result = result + name + " - " + contact + " " + bg + " \n";
 
                     int permissionCheck = ContextCompat.checkSelfPermission(this, Manifest.permission.SEND_SMS);
 
@@ -130,9 +129,8 @@ public class RecipientActivity extends AppCompatActivity {
 
                 } while (cursor.moveToNext());
 
-                /*Log.e("TAG", "SMS sent to \n" + result);
-                Toast.makeText(RecipientActivity.this, "SMS sent to \n" + result, Toast.LENGTH_SHORT).show();
-                */
+                Log.e("TAG", "Sending SMS to \n" + result);
+                Toast.makeText(RecipientActivity.this, "Sending SMS to \n" + result, Toast.LENGTH_LONG).show();
                 cursor.close();
             }
 
