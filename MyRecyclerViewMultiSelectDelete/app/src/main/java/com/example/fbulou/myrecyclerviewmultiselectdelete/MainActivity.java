@@ -139,9 +139,13 @@ public class MainActivity extends AppCompatActivity {
             }
         }
 
-        if (!performDeselections)               // deletions made. Now saving the remaining wishlist in the WishlistPrefs
+        if (!performDeselections)               // deletions made. Now save the remaining list in the Prefs
         {
             //TODO SAVE the new MyRVAdapter.myRVAdapter.data list to the SharedPrefs
+
+            if (myRVAdapter.data.size() == 0) {     //list empty
+                //TODO show empty list image
+            }
         }
 
         myRVAdapter.longClickActivated = false;
@@ -153,8 +157,12 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (myRVAdapter.longClickActivated) {
+        if (myRVAdapter == null) {      //if
+            super.onBackPressed();
+
+        } else if (myRVAdapter.longClickActivated) {
             performDeletions(true);
+
         } else
             super.onBackPressed();
 
