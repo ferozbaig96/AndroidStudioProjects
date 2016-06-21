@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">MyRecyclerViewMultiSelectDelete</string>
+    <string name="action_settings">Settings</string>
+    <string name="image">image</string>
+    <string name="delete_items">Delete Items</string>
+</resources>
