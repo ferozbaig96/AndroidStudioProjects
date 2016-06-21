@@ -21,6 +21,7 @@ public class MainActivity extends AppCompatActivity {
     static MainActivity Instance;
     Menu mMenu;
     RecyclerView mRecyclerView;
+    MyRVAdapter myRVAdapter;
     Toolbar toolbar;
 
     static MainActivity getInstance() {
@@ -50,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
 
         mRecyclerView = (RecyclerView) findViewById(R.id.id_mRecyclerView);
 
-        MyRVAdapter mAdapter = new MyRVAdapter(this, getData());
-        mRecyclerView.setAdapter(mAdapter);
+        myRVAdapter = new MyRVAdapter(this, getData());
+        mRecyclerView.setAdapter(myRVAdapter);
 
         mRecyclerView.setLayoutManager(new StaggeredGridLayoutManager(3, 1));
 
@@ -123,7 +124,7 @@ public class MainActivity extends AppCompatActivity {
         for (int i = size - 1; i >= 0; i--) {
 
             int key = keys[i];
-            MyRVAdapter.myRVAdapter.data.get(key).isSelected = false;
+            myRVAdapter.data.get(key).isSelected = false;
 
             // MyRVAdapter.posViewMap.get(key).findViewById(R.id.id_RVicon).setAlpha(1f);
             //-- MyRVAdapter.posImgMap.get(key).setAlpha(1f);
@@ -133,8 +134,8 @@ public class MainActivity extends AppCompatActivity {
 
             if (!performDeselections)                // not deselections, but deletions
             {
-                MyRVAdapter.myRVAdapter.data.remove(key);
-                MyRVAdapter.myRVAdapter.notifyItemRemoved(key);
+                myRVAdapter.data.remove(key);
+                myRVAdapter.notifyItemRemoved(key);
             }
         }
 
@@ -143,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
             //TODO SAVE the new MyRVAdapter.myRVAdapter.data list to the SharedPrefs
         }
 
-        MyRVAdapter.myRVAdapter.longClickActivated = false;
+        myRVAdapter.longClickActivated = false;
         getSupportActionBar().setTitle("My App");
         mMenu.findItem(R.id.action_delete_long_press).setVisible(false);
         mMenu.findItem(R.id.action_settings).setVisible(true);
@@ -152,7 +153,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if (MyRVAdapter.myRVAdapter.longClickActivated) {
+        if (myRVAdapter.longClickActivated) {
             performDeletions(true);
         } else
             super.onBackPressed();

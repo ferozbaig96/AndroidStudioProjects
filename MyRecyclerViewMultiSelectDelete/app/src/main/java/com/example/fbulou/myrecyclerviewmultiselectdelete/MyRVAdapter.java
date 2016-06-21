@@ -19,7 +19,7 @@ public class MyRVAdapter extends RecyclerView.Adapter<MyRVAdapter.MyViewHolder> 
     private LayoutInflater inflater;
     List<Information> data = Collections.emptyList();
 
-    static MyRVAdapter myRVAdapter;
+   // static MyRVAdapter myRVAdapter;
     //static Map<Integer, View> posViewMap = new HashMap<>();           //can use this to get the whole itemView - view for an item
     static Map<Integer, ImageView> posImgMap = new HashMap<>();
     boolean longClickActivated = false;
@@ -28,7 +28,7 @@ public class MyRVAdapter extends RecyclerView.Adapter<MyRVAdapter.MyViewHolder> 
         inflater = LayoutInflater.from(context);
         this.data = data;
 
-        myRVAdapter = this;
+      //  myRVAdapter = this;
     }
 
     @Override
