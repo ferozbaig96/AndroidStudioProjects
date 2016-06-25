@@ -11,9 +11,14 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.animation.AccelerateDecelerateInterpolator;
+import android.widget.Button;
+
+import io.codetail.animation.ViewAnimationUtils;
 
 public class MainActivity extends AppCompatActivity {
 /*
+
+    https://github.com/ozodrukh/CircularReveal
 
     repositories {
         maven {
@@ -31,9 +36,12 @@ public class MainActivity extends AppCompatActivity {
     }
     */
 
+    /*check out Layout in content_main.xml */
+
     View myView;
     int cx, cy;
     float finalRadius;
+    Button btn1;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
         // previously invisible view
         myView = findViewById(R.id.myView);
 
+        btn1 = (Button) findViewById(R.id.btn1);
     }
 
 
@@ -95,13 +104,38 @@ public class MainActivity extends AppCompatActivity {
         finalRadius = (float) Math.hypot(cx, cy);
 
         // create the animator for this view (the start radius is zero)
-        Animator animator = io.codetail.animation.ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
+        Animator animator = ViewAnimationUtils.createCircularReveal(myView, cx, cy, 0, finalRadius);
         animator.setInterpolator(new AccelerateDecelerateInterpolator());
 
         // make the view visible and start the animation
         animator.setDuration(1500);
         myView.setVisibility(View.VISIBLE);
         animator.start();
+
+
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                int ccx = v.getWidth() / 2, ccy = v.getHeight() / 2;
+                float finalRad = (float) Math.hypot(ccx, ccy);
+                Animator animator = ViewAnimationUtils.createCircularReveal(v, ccx, ccy, 0, finalRad);
+                animator.setDuration(700);
+
+                // make the view invisible when the animation is done
+                animator.addListener(new AnimatorListenerAdapter() {
+                    @Override
+                    public void onAnimationEnd(Animator animation) {
+                        super.onAnimationEnd(animation);
+                        //myView.setVisibility(View.INVISIBLE);
+                    }
+                });
+
+                // start the animation
+                animator.start();
+
+            }
+        });
 
     }
 
