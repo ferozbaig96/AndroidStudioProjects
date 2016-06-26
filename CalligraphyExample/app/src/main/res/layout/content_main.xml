@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="com.example.fbulou.calligraphyexample.MainActivity"
+    tools:ignore="MissingPrefix"
+    tools:showIn="@layout/activity_main">
+
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Hello World"
+                android:textColor="#000"
+                android:textSize="30sp" />
+
+            <TextView
+                fontPath="fonts/Hitchhiker.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Hitchhiker"
+                android:textColor="#000"
+                android:textSize="30sp" />
+
+            <TextView
+                fontPath="fonts/Hitchhiker b.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Hitchhiker b"
+                android:textColor="#000"
+                android:textSize="30sp" />
+
+            <TextView
+                fontPath="fonts/Sacramento-Regular.ttf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Sacramento-Regular"
+                android:textColor="#000"
+                android:textSize="30sp" />
+
+            <TextView
+                fontPath="fonts/Bariol_Regular.otf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Bariol_Regular"
+                android:textColor="#000"
+                android:textSize="30sp" />
+
+            <TextView
+                fontPath="fonts/Bariol_Regular_Italic.otf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Bariol_Regular_Italic"
+                android:textColor="#000"
+                android:textSize="30sp" />
+
+            <TextView
+                fontPath="fonts/GOGOIA-Deco.otf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="GOGOIA-Deco"
+                android:textColor="#000"
+                android:textSize="30sp" />
+
+            <TextView
+                fontPath="fonts/GOGOIA-Regular.otf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="GOGOIA-Regular"
+                android:textColor="#000"
+                android:textSize="30sp" />
+
+            <TextView
+                fontPath="fonts/Kirvy-Bold.otf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Kirvy-Bold"
+                android:textColor="#000"
+                android:textSize="30sp" />
+
+            <TextView
+                fontPath="fonts/Kirvy-Light.otf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Kirvy-Light"
+                android:textColor="#000"
+                android:textSize="30sp" />
+
+            <TextView
+                fontPath="fonts/Kirvy-Regular.otf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Kirvy-Regular"
+                android:textColor="#000"
+                android:textSize="30sp" />
+
+            <TextView
+                fontPath="fonts/Kirvy-Thin.otf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Kirvy-Thin"
+                android:textColor="#000"
+                android:textSize="30sp" />
+
+            <TextView
+                fontPath="fonts/Retrospective-Regular.otf"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:padding="10dp"
+                android:text="Retrospective-Regular"
+                android:textColor="#000"
+                android:textSize="30sp" />
+        </LinearLayout>
+    </ScrollView>
+</LinearLayout>

@@ -1,3 +1,0 @@
-Android Library - Calligraphy
-
-https://github.com/chrisjenx/Calligraphy
