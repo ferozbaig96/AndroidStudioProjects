@@ -1,0 +1,22 @@
+AndroidViewAnimations
+
+EffectReveal - CircularReveal for pre lollipop
+
+FabTransitionExample - CircularReveal for fab
+
+LikeButtonAnimation
+
+MaterialRippleExample
+
+PreLollipopTransitionExample - SharedElement transition for pre lollipop
+
+TransitionsEverywhereExample - Explode for pre lollipop and many more
+
+
+----------------------------
+
+MaterialShowCaseView
+
+ShowCaseViewTutorial
+
+TourGuideShowcaseview
