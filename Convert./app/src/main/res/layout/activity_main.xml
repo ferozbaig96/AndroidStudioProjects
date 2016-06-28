@@ -7,7 +7,7 @@
     <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="wrap_content"
         android:padding="16dp"
         tools:context=".MainActivity">
 
@@ -38,16 +38,13 @@
 
         <HorizontalScrollView
             android:layout_width="match_parent"
+            android:background="#dae6ff"
             android:layout_height="match_parent"
             android:layout_below="@+id/unit_type_spinner">
 
             <GridLayout
-                android:layout_width="match_parent"
+                android:layout_width="wrap_content"
                 android:layout_height="match_parent"
-                android:layout_alignParentEnd="false"
-                android:layout_alignParentStart="true"
-                android:layout_below="@+id/unit_type_spinner"
-                android:background="#dae6ff"
                 android:columnCount="2"
                 android:orientation="horizontal"
                 android:padding="15dp"
@@ -59,7 +56,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:layout_marginBottom="30dp"
-                    android:layout_marginRight="30dp"
+                    android:layout_marginEnd="30dp"
                     android:text="@string/deafult_tsp"
                     android:textAppearance="?android:textAppearanceMedium" />
 
@@ -69,7 +66,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:layout_marginBottom="30dp"
-                    android:layout_marginRight="30dp"
+                    android:layout_marginEnd="30dp"
                     android:text="@string/default_cup"
                     android:textAppearance="?android:textAppearanceMedium" />
 
@@ -79,7 +76,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:layout_marginBottom="30dp"
-                    android:layout_marginRight="30dp"
+                    android:layout_marginEnd="30dp"
                     android:text="0.333 tbs"
                     android:textAppearance="?android:textAppearanceMedium" />
 
@@ -89,7 +86,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="top|start"
                     android:layout_marginBottom="30dp"
-                    android:layout_marginRight="30dp"
+                    android:layout_marginEnd="30dp"
                     android:text="0.1666 oz"
                     android:textAppearance="?android:textAppearanceMedium" />
 
@@ -99,7 +96,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:layout_marginBottom="30dp"
-                    android:layout_marginRight="30dp"
+                    android:layout_marginEnd="30dp"
                     android:text="0.057 kg"
                     android:textAppearance="?android:textAppearanceMedium" />
 
@@ -109,7 +106,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="top|start"
                     android:layout_marginBottom="30dp"
-                    android:layout_marginRight="30dp"
+                    android:layout_marginEnd="30dp"
                     android:text="0.0052 quart"
                     android:textAppearance="?android:textAppearanceMedium" />
 
@@ -119,7 +116,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="top|start"
                     android:layout_marginBottom="30dp"
-                    android:layout_marginRight="30dp"
+                    android:layout_marginEnd="30dp"
                     android:text="0.0013 gallon"
                     android:textAppearance="?android:textAppearanceMedium" />
 
@@ -129,7 +126,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:layout_marginBottom="30dp"
-                    android:layout_marginRight="30dp"
+                    android:layout_marginEnd="30dp"
                     android:text="0.0125 pound"
                     android:textAppearance="?android:textAppearanceMedium" />
 
@@ -139,7 +136,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="top|start"
                     android:layout_marginBottom="30dp"
-                    android:layout_marginRight="30dp"
+                    android:layout_marginEnd="30dp"
                     android:text="4.9289 mL"
                     android:textAppearance="?android:textAppearanceMedium" />
 
@@ -149,7 +146,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:layout_marginBottom="30dp"
-                    android:layout_marginRight="30dp"
+                    android:layout_marginEnd="30dp"
                     android:text="0.0049 L"
                     android:textAppearance="?android:textAppearanceMedium" />
 
@@ -159,7 +156,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="top|start"
                     android:layout_marginBottom="30dp"
-                    android:layout_marginRight="30dp"
+                    android:layout_marginEnd="30dp"
                     android:text="5687.5000 mg"
                     android:textAppearance="?android:textAppearanceMedium" />
 
@@ -169,7 +166,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="start"
                     android:layout_marginBottom="30dp"
-                    android:layout_marginRight="30dp"
+                    android:layout_marginEnd="30dp"
                     android:text="0.104 pint"
                     android:textAppearance="?android:textAppearanceMedium" />
 

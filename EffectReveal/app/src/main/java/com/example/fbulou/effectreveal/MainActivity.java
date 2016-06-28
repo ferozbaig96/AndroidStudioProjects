@@ -194,6 +194,8 @@ public class MainActivity extends AppCompatActivity {
 
                 @Override
                 public void onAnimationEnd() {
+
+                    //TODO WRAP_CONTENT for visible views
                     layoutParams.height = 1;
                     layoutParams.width = 1;
                     v.setLayoutParams(layoutParams);

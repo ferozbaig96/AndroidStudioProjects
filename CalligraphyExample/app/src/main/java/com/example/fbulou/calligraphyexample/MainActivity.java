@@ -34,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
         ChangeMyToolbarFont.apply(this, getAssets(), toolbar, "Bariol_Regular.otf", false);
     }
 
+    //DO THIS AS WELL
     @Override
     protected void attachBaseContext(Context newBase) {
         super.attachBaseContext(CalligraphyContextWrapper.wrap(newBase));
