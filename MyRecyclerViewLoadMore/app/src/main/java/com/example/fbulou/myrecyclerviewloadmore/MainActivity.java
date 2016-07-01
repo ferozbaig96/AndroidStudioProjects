@@ -33,10 +33,12 @@ public class MainActivity extends AppCompatActivity {
         mRecyclerView = (RecyclerView) findViewById(R.id.id_mRecyclerView);
 
         mAdapter = new MyRVAdapter(this, getData());
+        //can use LinearLayoutManager as well
         GridLayoutManager gridLayoutManager = new GridLayoutManager(this, 2);       // first set layout manager, then set recycler view
         mRecyclerView.setLayoutManager(gridLayoutManager);
         mAdapter.setRecyclerView(mRecyclerView);
         mRecyclerView.setAdapter(mAdapter);
+        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
 
         gridLayoutManager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup() {
             @Override
@@ -53,7 +55,6 @@ public class MainActivity extends AppCompatActivity {
                     return -1;
             }
         });
-
 
         mAdapter.setMyOnLoadMoreListener(new MyRVAdapter.OnLoadMoreListener() {
             @Override
@@ -76,7 +77,6 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
-        mRecyclerView.setItemAnimator(new DefaultItemAnimator());
     }
 
     void fetchData(int page)
@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity {
             currentObject.title = titles[i];
 
             mAdapter.data.add(currentObject);
-            mAdapter.notifyItemInserted(mAdapter.data.size());
+            mAdapter.notifyItemInserted(mAdapter.data.size()-1);
         }
 
         mAdapter.setLoaded();
