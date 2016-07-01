@@ -1,4 +1,4 @@
-item_layout.xml : FrameLayou inside RelativeLayout. FrameLayout is used for text over image.
+item_layout.xml : FrameLayout inside RelativeLayout. FrameLayout is used for text over image.
 
 <?xml version="1.0" encoding="utf-8"?><!--<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:card_view="http://schemas.android.com/apk/res-auto"
@@ -45,7 +45,7 @@ item_layout.xml : FrameLayou inside RelativeLayout. FrameLayout is used for text
 </android.support.v7.widget.CardView>-->
 
 
--------------------------------------------------
+----------------------------------
 
 Paste these methods inside your Activity :
 
@@ -68,9 +68,9 @@ Paste these methods inside your Activity :
         return result;
     }
 
-------------------------------------------------
+----------------------------------
 
-Inside MyRVAdaper.java, change the layoutParams of the icon to make it square
+Inside MyRVAdaper.java, change the layoutParams(width) of the icon to make it square
 
   public MyViewHolder(View itemView) {
             super(itemView);
@@ -78,9 +78,47 @@ Inside MyRVAdaper.java, change the layoutParams of the icon to make it square
             title = (TextView) itemView.findViewById(R.id.id_RVtitle);
             icon = (ImageView) itemView.findViewById(R.id.id_RVicon);
 
-           /* ViewGroup.LayoutParams layoutParams = icon.getLayoutParams();
+            ViewGroup.LayoutParams layoutParams = icon.getLayoutParams();
             layoutParams.width = MainActivity.Instance.getEffectiveHeight() / 2;
-            icon.setLayoutParams(layoutParams);*/
+            icon.setLayoutParams(layoutParams);
 
             itemView.setOnClickListener(this);
         }
+
+---------------------------------------------------------------------------
+
+For a VERTICAL GRIDVIEW Recyclerview with square items, just use FrameLayout(for text over image) or RelativeLayout inside item_layout.xml.
+
+and change the following of FrameLayout or RelativeLayout : 
+	
+	android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+----------------------------------
+
+Inside your activity , add this method :
+
+ public int getEffectiveWidth() {
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        return size.x;
+    }
+
+----------------------------------
+
+Inside MyRVAdpter.java, change the layoutParams(height) :
+
+  public MyViewHolder(View itemView) {
+            super(itemView);
+
+            title = (TextView) itemView.findViewById(R.id.id_RVtitle);
+            icon = (ImageView) itemView.findViewById(R.id.id_RVicon);
+
+            ViewGroup.LayoutParams layoutParams = icon.getLayoutParams();
+            layoutParams.height = MainActivity.Instance.getEffectiveWidth() / 2;
+            icon.setLayoutParams(layoutParams);
+
+            itemView.setOnClickListener(this);
+        }
+
