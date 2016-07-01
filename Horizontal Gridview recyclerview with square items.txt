@@ -1,0 +1,86 @@
+item_layout.xml : FrameLayou inside RelativeLayout. FrameLayout is used for text over image.
+
+<?xml version="1.0" encoding="utf-8"?><!--<android.support.v7.widget.CardView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:card_view="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/card_view"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    card_view:cardUseCompatPadding="true">-->
+
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="wrap_content"
+    android:layout_height="match_parent">
+
+    <FrameLayout
+        android:layout_width="wrap_content"
+        android:layout_height="match_parent">
+        <!--icon-->
+        <ImageView
+            android:id="@+id/id_RVicon"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="0.5dp"
+            android:layout_marginTop="0.5dp"
+            android:adjustViewBounds="true"
+            android:background="#fff"
+            android:contentDescription="@string/image"
+            android:scaleType="centerCrop"
+            android:src="@drawable/default_img" />
+
+        <!--title-->
+        <TextView
+            android:id="@+id/id_RVtitle"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_below="@id/id_RVicon"
+            android:layout_gravity="bottom"
+            android:background="#64ffffff"
+            android:gravity="center_horizontal"
+            android:text="Dummy Text"
+            android:textSize="22sp" />
+
+    </FrameLayout>
+</RelativeLayout><!--
+</android.support.v7.widget.CardView>-->
+
+
+-------------------------------------------------
+
+Paste these methods inside your Activity :
+
+  public int getEffectiveHeight() {
+        Display display = getWindowManager().getDefaultDisplay();
+        Point size = new Point();
+        display.getSize(size);
+        int totalHeight = size.y;
+
+        return totalHeight - getStatusbarHeight() - toolbar.getHeight();
+    }
+
+    public int getStatusbarHeight() {
+        int result = 0;
+        int resourceId = getResources().getIdentifier("status_bar_height", "dimen", "android");
+
+        if (resourceId > 0)
+            result = getResources().getDimensionPixelSize(resourceId);
+
+        return result;
+    }
+
+------------------------------------------------
+
+Inside MyRVAdaper.java, change the layoutParams of the icon to make it square
+
+  public MyViewHolder(View itemView) {
+            super(itemView);
+
+            title = (TextView) itemView.findViewById(R.id.id_RVtitle);
+            icon = (ImageView) itemView.findViewById(R.id.id_RVicon);
+
+           /* ViewGroup.LayoutParams layoutParams = icon.getLayoutParams();
+            layoutParams.width = MainActivity.Instance.getEffectiveHeight() / 2;
+            icon.setLayoutParams(layoutParams);*/
+
+            itemView.setOnClickListener(this);
+        }
