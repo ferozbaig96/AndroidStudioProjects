@@ -12,7 +12,7 @@ ActivitySharedTransition - SharedElement transition for pre lollipop for activit
 
 PreLollipopTransitionExample - SharedElement transition for pre lollipop
 
-TransitionsEverywhereExample - Explode for pre lollipop and many more
+TransitionsEverywhereExample - Explode for pre lollipop and many more transitions
 
 
 ----------------------------
