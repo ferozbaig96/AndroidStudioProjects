@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "314233263408",
+    "firebase_url": "https://fir-admob-a6bcf.firebaseio.com",
+    "project_id": "fir-admob-a6bcf",
+    "storage_bucket": "fir-admob-a6bcf.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:314233263408:android:8a44497c0a6ac33a",
+        "android_client_info": {
+          "package_name": "com.example.fbulou.firebaseadmob"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "314233263408-koe5g3bq3h6qm2rdejlhg1dq32836ugp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyACZfNXfw-b_YK3wrZQc1m9sUBbO_Qd-ic"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
