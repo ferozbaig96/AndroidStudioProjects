@@ -9,6 +9,8 @@ import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.fbulou.awesomelibrary.AwesomeLibrary;
+
 public class MainActivity extends AppCompatActivity {
 
     @Override
@@ -26,6 +28,8 @@ public class MainActivity extends AppCompatActivity {
                         .setAction("Action", null).show();
             }
         });
+
+        AwesomeLibrary.getInstance().makeMeAwesome(this, "testing");
     }
 
     @Override
