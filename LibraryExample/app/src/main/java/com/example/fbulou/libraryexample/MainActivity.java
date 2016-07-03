@@ -13,6 +13,8 @@ import com.example.fbulou.awesomelibrary.AwesomeLibrary;
 
 public class MainActivity extends AppCompatActivity {
 
+    /*https://github.com/nisrulz/UploadToJitpack*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
