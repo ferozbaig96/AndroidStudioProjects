@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">QR-generator</string>
+    <string name="action_settings">Settings</string>
+    <string name="encode">Encode</string>
+    <string name="message">Message</string>
+    <string name="image">image</string>
+</resources>
