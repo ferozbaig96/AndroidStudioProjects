@@ -8,6 +8,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.PagerAdapter;
 import android.support.v7.app.AppCompatActivity;
 
+import java.lang.reflect.Field;
+
 public class SlideImageActivity extends AppCompatActivity {
 
     public static int NUM_PAGES = 1;
