@@ -12,13 +12,14 @@
     tools:context="com.example.fbulou.activitysharedtransition.SubActivity"
     tools:showIn="@layout/activity_sub">
 
-    <Button
+    <ImageView
         android:id="@+id/two"
         android:layout_width="150dp"
-        android:layout_height="300dp"
+        android:layout_height="150dp"
         android:layout_centerHorizontal="true"
         android:layout_centerVertical="true"
-        android:background="@drawable/def_8" />
+        android:src="@drawable/def_8"
+        android:scaleType="centerCrop" />
 
     <Button
         android:layout_width="match_parent"

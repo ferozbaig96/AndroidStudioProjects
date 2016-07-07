@@ -2,18 +2,16 @@ package com.example.fbulou.activitysharedtransition;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
 import android.view.ViewTreeObserver;
 import android.view.animation.AccelerateDecelerateInterpolator;
-import android.widget.Button;
+import android.widget.ImageView;
 
 public class SubActivity extends AppCompatActivity {
 
-    Button two;
+    ImageView two;
     int top, left, width, height;
     int leftDelta, topDelta;
     float widthScale, heightScale;
@@ -25,16 +23,7 @@ public class SubActivity extends AppCompatActivity {
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
-
-        two = (Button) findViewById(R.id.two);
+        two = (ImageView) findViewById(R.id.two);
 
         Intent intent = getIntent();
 
@@ -45,42 +34,43 @@ public class SubActivity extends AppCompatActivity {
 
         // two.setVisibility(View.INVISIBLE);
 
-        onUiReady();
+        onUiReady(two);
     }
 
-    public void onUiReady() {
-        two.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
+    public void onUiReady(final View view) {
+        view.getViewTreeObserver().addOnPreDrawListener(new ViewTreeObserver.OnPreDrawListener() {
             @Override
             public boolean onPreDraw() {
 
-                two.getViewTreeObserver().removeOnPreDrawListener(this);
-                prepareScene();
-                runEnterAnimation();
+                view.getViewTreeObserver().removeOnPreDrawListener(this);
+                prepareScene(view);
+                runEnterAnimation(view);
                 return true;
             }
         });
     }
 
-    private void prepareScene() {
+    private void prepareScene(View view) {
+        //Scale the destination view to be the same size as the original view
+        widthScale = (float) width / view.getWidth();
+        heightScale = (float) height / view.getHeight();
+        view.setScaleX(widthScale);
+        view.setScaleY(heightScale);
+
         //Position the destination view where the original view was
         int[] screenLocation = new int[2];
-        two.getLocationOnScreen(screenLocation);
-        leftDelta = left - screenLocation[0];
-        topDelta = top - height - screenLocation[1];
-       // two.setTranslationX(leftDelta);
-        two.setTranslationY(topDelta);
+        view.getLocationOnScreen(screenLocation);
 
-        //Scale the destination view to be the same size as the original view
-        widthScale = (float) width / two.getWidth();
-        heightScale = (float) height / two.getHeight();
-        two.setScaleX(widthScale);
-        two.setScaleY(heightScale);
+        leftDelta = left - screenLocation[0];
+        topDelta = top - screenLocation[1];
+        view.setTranslationX(leftDelta);
+        view.setTranslationY(topDelta);
     }
 
-    private void runEnterAnimation() {
+    private void runEnterAnimation(View view) {
         //Now simply animate to the default positions
 
-        two.animate()
+        view.animate()
                 .setDuration(700)
                 .setInterpolator(new AccelerateDecelerateInterpolator())
                 .scaleX(1)
@@ -94,16 +84,16 @@ public class SubActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
 
-        runExitAnimation();
+        runExitAnimation(two);
     }
 
-    private void runExitAnimation() {
-        two.animate()
+    private void runExitAnimation(View view) {
+        view.animate()
                 .setDuration(700)
                 .setInterpolator(new AccelerateDecelerateInterpolator())
                 .scaleX(widthScale)
                 .scaleY(heightScale)
-              //  .translationX(leftDelta)
+                .translationX(leftDelta)
                 .translationY(topDelta)
                 .withEndAction(new Runnable() {
                     @Override
