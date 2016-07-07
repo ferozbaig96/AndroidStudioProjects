@@ -32,8 +32,6 @@ public class SubActivity extends AppCompatActivity {
         width = intent.getIntExtra("width", 0);
         height = intent.getIntExtra("height", 0);
 
-        // two.setVisibility(View.INVISIBLE);
-
         onUiReady(two);
     }
 
@@ -78,7 +76,6 @@ public class SubActivity extends AppCompatActivity {
                 .translationX(0)
                 .translationY(0)
                 .start();
-
     }
 
     @Override
