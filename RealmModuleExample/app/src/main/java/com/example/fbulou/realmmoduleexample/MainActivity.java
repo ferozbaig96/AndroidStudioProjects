@@ -87,7 +87,7 @@ public class MainActivity extends AppCompatActivity {
         // This Realm contains the following classes: { Snake, Spider }
         RealmConfiguration myConfig = new RealmConfiguration.Builder(this)
                 .name("myRealm.realm")
-                .modules(null, new CreepyAnimalsModule())
+                .modules(new CreepyAnimalsModule())
                 .build();
 
         // Multiple Realms can be open at the same time
