@@ -47,6 +47,10 @@ public class MainActivity extends AppCompatActivity {
 
         // Create the Realm configuration
         realmConfig = new RealmConfiguration.Builder(this).name("myRealm.realm").build();
+
+        //Resetting realm
+        Realm.deleteRealm(realmConfig);
+
         // Open the Realm for the UI thread.
         realm = Realm.getInstance(realmConfig);
 
@@ -69,7 +73,6 @@ public class MainActivity extends AppCompatActivity {
                 showStatus(result);
             }
         }.execute();
-
     }
 
     @Override
