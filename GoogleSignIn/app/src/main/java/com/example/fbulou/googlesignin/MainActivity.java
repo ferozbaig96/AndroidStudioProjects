@@ -53,6 +53,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
         gso = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.server_client_id))
                 .requestEmail()
                 //.requestScopes(new Scope(Scopes.PLUS_LOGIN))
                 .build();
@@ -178,6 +179,12 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
             Uri personPhoto = acct.getPhotoUrl();
 
             statusTextview.setText(getString(R.string.signed_in_fmt, personName));
+
+            //TODO Authenticate the ID Token :
+            // Make a GET/POST req to https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=XYZ123 where XY123 is your acct.getIdToken()
+            // The value of "sub" is the user's unique Google ID
+
+            //TODO Then, send the ID token to your server
 
             String s = personEmail + "\n" + personId + "\n" + personPhoto + "\n" + personIdToken;
             Toast.makeText(MainActivity.this, s, Toast.LENGTH_LONG).show();
