@@ -14,6 +14,10 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.android.volley.RequestQueue;
+import com.android.volley.Response;
+import com.android.volley.VolleyError;
+import com.android.volley.toolbox.StringRequest;
 import com.google.android.gms.auth.api.Auth;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
@@ -25,6 +29,9 @@ import com.google.android.gms.common.api.OptionalPendingResult;
 import com.google.android.gms.common.api.ResultCallback;
 import com.google.android.gms.common.api.Status;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.OnConnectionFailedListener {
 
     TextView statusTextview;
@@ -32,6 +39,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
     Button signOutButton;
     Button disconnectButton;
     LinearLayout signOutAndDiconnectLayout;
+    private RequestQueue mRequestQueue;
 
     private static final int RC_SIGN_IN = 100;
     GoogleSignInOptions gso;
@@ -49,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
         signOutButton = (Button) findViewById(R.id.sign_out_button);
         disconnectButton = (Button) findViewById(R.id.disconnect_button);
         signOutAndDiconnectLayout = (LinearLayout) findViewById(R.id.sign_out_and_disconnect);
+        mRequestQueue = VolleySingleton.getInstance().getRequestQueue();
 
         // Configure sign-in to request the user's ID, email address, and basic
         // profile. ID and basic profile are included in DEFAULT_SIGN_IN.
@@ -180,21 +189,67 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.O
 
             statusTextview.setText(getString(R.string.signed_in_fmt, personName));
 
-            //TODO Authenticate the ID Token :
-            // Make a GET/POST req to https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=XYZ123 where XY123 is your acct.getIdToken()
-            // The value of "sub" is the user's unique Google ID
-
-            //TODO Then, send the ID token to your server
-
             String s = personEmail + "\n" + personId + "\n" + personPhoto + "\n" + personIdToken;
             Toast.makeText(MainActivity.this, s, Toast.LENGTH_LONG).show();
             Log.e("TAG", s);
 
-            updateUI(true);
+            // Check for authenticity before sending data to a back-end server
+            // Make a GET/POST req to https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=XYZ123 where XY123 is your acct.getIdToken()
+            // The value of "sub" is the user's unique Google ID
+            checkForAuthenticity(personIdToken);
+            
         } else {
             // Signed out, show unauthenticated UI.
             updateUI(false);
         }
+    }
+
+    private void checkForAuthenticity(String idToken) {
+
+        String URL = "https://www.googleapis.com/oauth2/v3/tokeninfo?id_token=" + idToken;
+
+        StringRequest stringRequest = new StringRequest(URL, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                try {
+                    JSONObject jsonResponse = new JSONObject(response);
+                    String iss = jsonResponse.getString("iss");
+                    String aud = jsonResponse.getString("aud");
+
+                    boolean issAuth = false, audAuth = false;
+
+                    if (iss.equals("https://accounts.google.com") || iss.equals("accounts.google.com"))
+                        issAuth = true;
+
+                    //aud claims one of your app's client ID
+                    if (aud.equals(getString(R.string.server_client_id)))
+                        audAuth = true;
+
+                    //is Authenticated
+                    if (issAuth && audAuth) {
+
+                        String sub = jsonResponse.getString("sub");
+
+                        Log.e("TAG", sub);
+
+                        //TODO Then, send the sub (idToken) to your server
+
+                        updateUI(true);
+                    } else
+                        Toast.makeText(MainActivity.this, "Authentication Failed", Toast.LENGTH_SHORT).show();
+
+                } catch (JSONException e) {
+                    e.printStackTrace();
+                }
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                error.printStackTrace();
+            }
+        });
+
+        mRequestQueue.add(stringRequest);
     }
 
     private void signOut() {

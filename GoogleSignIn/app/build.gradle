@@ -27,6 +27,9 @@ dependencies {
 
     // Dependency for Google Sign-In
     compile 'com.google.android.gms:play-services-auth:9.2.1'
+
+    //Volley
+    compile 'com.mcxiaoke.volley:library-aar:1.0.0'
 }
 
 apply plugin: 'com.google.gms.google-services'
