@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Tesseract</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="button_text">OCR!</string>
+    <string name="text_hint">OCRed Text will appear here</string>
+</resources>
