@@ -13,7 +13,7 @@ public class MainActivity extends AppCompatActivity {
     /*
         https://github.com/mxn21/FlowingDrawer
 
-        Better performance in lollipop + devices
+        Bug with Jellybean - https://github.com/mxn21/FlowingDrawer/issues/19
     */
 
     private LeftDrawerLayout mLeftDrawerLayout;
