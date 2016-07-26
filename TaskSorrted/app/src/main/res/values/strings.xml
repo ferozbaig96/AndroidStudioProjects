@@ -1,0 +1,6 @@
+<resources>
+    <string name="app_name">TaskSorrted</string>
+    <string name="action_settings">Settings</string>
+    <string name="title_activity_map_photos">MapPhotosActivity</string>
+    <string name="image">image</string>
+</resources>
