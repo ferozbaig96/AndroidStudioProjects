@@ -39,6 +39,8 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity implements GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
+    // Description in assets/Android Test - Sorrted.pdf
+
     RecyclerView mRecyclerView;
     MainActRVAdapter mAdapter;
     List<InformationMain> data;
