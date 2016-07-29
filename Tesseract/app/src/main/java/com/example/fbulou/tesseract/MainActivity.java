@@ -39,10 +39,10 @@ public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "TAG";
 
-    protected Button _button;
+    protected Button button;
     protected TextView textView;
-    protected String _path;
-    protected boolean _taken;
+    protected String imagePath;
+    protected boolean isPhotoTaken;
 
     protected static final String PHOTO_TAKEN = "photo_taken";
 
@@ -99,10 +99,10 @@ public class MainActivity extends AppCompatActivity {
         }
 
         textView = (TextView) findViewById(R.id.field);
-        _button = (Button) findViewById(R.id.button);
-        _button.setOnClickListener(new ButtonClickHandler());
+        button = (Button) findViewById(R.id.button);
+        button.setOnClickListener(new ButtonClickHandler());
 
-        _path = DATA_PATH + "/ocr.jpg";
+        imagePath = DATA_PATH + "/ocr.jpg";
     }
 
     public class ButtonClickHandler implements View.OnClickListener {
@@ -113,7 +113,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void startCameraActivity() {
-        File file = new File(_path);
+        File file = new File(imagePath);
         Uri outputFileUri = Uri.fromFile(file);
 
         final Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
@@ -136,7 +136,7 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onSaveInstanceState(Bundle outState) {
-        outState.putBoolean(PHOTO_TAKEN, _taken);
+        outState.putBoolean(PHOTO_TAKEN, isPhotoTaken);
     }
 
     @Override
@@ -148,15 +148,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
     protected void onPhotoTaken() {
-        _taken = true;
+        isPhotoTaken = true;
 
         BitmapFactory.Options options = new BitmapFactory.Options();
         options.inSampleSize = 4;
 
-        Bitmap bitmap = BitmapFactory.decodeFile(_path, options);
+        Bitmap bitmap = BitmapFactory.decodeFile(imagePath, options);
 
         try {
-            ExifInterface exif = new ExifInterface(_path);
+            ExifInterface exif = new ExifInterface(imagePath);
             int exifOrientation = exif.getAttributeInt(
                     ExifInterface.TAG_ORIENTATION,
                     ExifInterface.ORIENTATION_NORMAL);
@@ -226,7 +226,7 @@ public class MainActivity extends AppCompatActivity {
         recognizedText = recognizedText.trim();
 
         if (recognizedText.length() != 0) {
-            textView.setText(textView.getText().toString().length() == 0 ? recognizedText : textView.getText() + " " + recognizedText);
+            textView.setText(recognizedText);
             // edittext.setSelection(textView.getText().toString().length());
         }
 
