@@ -18,6 +18,11 @@ import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
+    /*
+        Derek Banas , Slidenerd Videos
+        https://github.com/codepath/android_guides/wiki/Fragment-Navigation-Drawer
+    */
+
     Toolbar toolbar;
     String toolbarTitle;
 
@@ -60,7 +65,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
        /* Code for Navigation Drawer opening from right
           Also see drawer.closeDrawer(GravityCompat.END);
-          In activity_mai.xml, see  tools:openDrawer="end" and android:layout_gravity="end"
+          In activity_main.xml, see  tools:openDrawer="end" and android:layout_gravity="end"
        */
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
 
