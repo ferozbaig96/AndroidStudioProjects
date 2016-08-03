@@ -1,0 +1,5 @@
+http://stackoverflow.com/questions/16804093/android-studio-rename-package
+
+After this, make changes in build.gradle and AndroidManifest.xml
+
+If any package is added/removed, do the same for AndroidTest and Test java folders
