@@ -3,6 +3,7 @@ package com.example.fbulou.tasksorrted;
 import android.Manifest;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.location.Address;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.Handler;
@@ -56,6 +57,9 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
     final long FASTEST_INTERVAL = 2000; /* 2 sec */
 
     private RequestQueue mRequestQueue;
+    boolean isInitialData = true;
+
+    MyGeocoderTask myGeocoderTask;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -162,6 +166,30 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
             mCurrentLocation = location;
             Log.e("TAG", "First Location fetched \n " + String.valueOf(location.getLatitude()) + " , " + String.valueOf(location.getLongitude()));
             refreshData();
+
+            myGeocoderTask = new MyGeocoderTask(getApplicationContext(), new MyGeocoderTask.AsyncResponse() {
+                @Override
+                public void processFinish(List<Address> addresses) {
+                    if (addresses == null || addresses.size() == 0) {
+                        Log.e("TAG", "Current Location not Found");
+                        Toast.makeText(MainActivity.Instance, "Current Location not found", Toast.LENGTH_SHORT).show();
+                    } else {
+                        String city = addresses.get(0).getLocality();
+                        String country = addresses.get(0).getCountryName();
+                        String state = addresses.get(0).getAdminArea();
+
+                        Log.e("TAG", "Current Location Found!! \n" +
+                                "city : " + city + "\n" +
+                                "country : " + country + "\n" +
+                                "state : " + state);
+                        Toast.makeText(MainActivity.Instance, "Current Location Found!! \n" +
+                                "city : " + city + "\n" +
+                                "country : " + country + "\n" +
+                                "state : " + state, Toast.LENGTH_LONG).show();
+                    }
+                }
+            });
+            myGeocoderTask.execute(mCurrentLocation);
         }
 
         if (mCurrentLocation != null && mCurrentLocation.getLatitude() == location.getLatitude() && mCurrentLocation.getLongitude() == location.getLongitude())
@@ -207,7 +235,10 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
                     jsonObject = new JSONObject(response);
 
                     JSONArray jsonArray = jsonObject.getJSONArray("results");
-                    setupMyAdapter(getData(jsonArray));
+                    if (isInitialData)
+                        setupMyAdapter(getData(jsonArray));
+                    else
+                        getData(jsonArray);
 
                 } catch (JSONException e) {
                     e.printStackTrace();
@@ -302,12 +333,19 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
 
                 Log.e("Info " + i, "title : " + title + "\ntypes : " + types);
 
-                data.add(currentObject);
+                if (isInitialData)
+                    data.add(currentObject);
+                else {
+                    mAdapter.data.add(currentObject);
+                    mAdapter.notifyItemInserted(mAdapter.data.size() - 1);
+                }
 
             } catch (JSONException e) {
                 e.printStackTrace();
             }
         }
+
+        isInitialData = false;      //Initial data has been fetched.
 
         return data;
     }
@@ -337,6 +375,7 @@ public class MainActivity extends AppCompatActivity implements GoogleApiClient.C
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_refresh) {
             mRecyclerView.setAdapter(null);
+            isInitialData = true;
             refreshData();
         }
 
