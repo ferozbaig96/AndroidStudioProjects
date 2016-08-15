@@ -172,9 +172,6 @@ public class MainActivity extends AppCompatActivity {
             long position;
             Information infoObj;
 
-            int newItemsAdded = 0;
-
-
             @Override
             public void onDataChange(DataSnapshot dataSnapshot) {
 
@@ -186,18 +183,11 @@ public class MainActivity extends AppCompatActivity {
                     mAdapter.notifyItemInserted(mAdapter.data.size() - 1);
 
                     posInfoMap.put(position - 1, infoObj);
-                    // posInfoMap.put(pos++, infoObj);
-
-                    newItemsAdded++;
                 }
 
                 //Data has been fetched
 
                 //remove progress item
-             /*   int x = mAdapter.data.size() - 1 - newItemsAdded;
-                mAdapter.data.remove(x);
-                mAdapter.notifyItemRemoved(x);*/
-
                 mAdapter.data.remove(pos);
                 mAdapter.notifyItemRemoved(pos);
 
