@@ -1,0 +1,1 @@
+int color = ContextCompat.getColor(this, R.color.colorPrimaryDark);
