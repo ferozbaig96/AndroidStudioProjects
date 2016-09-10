@@ -86,7 +86,6 @@ public class ImageActivity extends AppCompatActivity {
         enableDragAndDrop();
 
         if (Build.VERSION.SDK_INT >= 23)  //Asking for permissions for post-Lollipop devices
-           /* permissionWriteExternalStorage();*/
             permissionWriteExternalStorage();
         else
             captureImage();
