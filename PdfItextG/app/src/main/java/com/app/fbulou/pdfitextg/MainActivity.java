@@ -4,7 +4,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.os.Environment;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v7.app.AlertDialog;
@@ -24,18 +23,20 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.OutputStream;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 
 public class MainActivity extends AppCompatActivity {
 
     private static final String TAG = "TAG";
+    private static final String FOLDER_PATH = "storage/sdcard1" + "/pdfdemo/";
+    private static final String FILE_PATH = FOLDER_PATH + "myPdfFile";
 
     EditText mSubjectEditText;
     EditText mBodyEditText;
     Button mSaveButton;
 
     File myFile;
+
+    //http://www.codeproject.com/Articles/986574/Android-iText-Pdf-Example
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        //Add dependency in build.gradle
         //Add the permission request in AndroidManifest,xml
 
         initialise();
@@ -92,17 +94,22 @@ public class MainActivity extends AppCompatActivity {
     //Creating PDF in Android
     private void createPdf() throws FileNotFoundException, DocumentException {
 
-        File pdfFolder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/pdfdemo");
+        // File pdfFolder = new File(Environment.getExternalStorageDirectory().getAbsolutePath() + "/pdfdemo");
+        File pdfFolder = new File(FOLDER_PATH);
         if (!pdfFolder.exists()) {
             pdfFolder.mkdir();
             Log.i(TAG, "Pdf Directory created");
         }
 
+        /*
         //Create time stamp
         Date date = new Date();
         String timeStamp = new SimpleDateFormat("yyyyMMdd_HHmmss").format(date);
 
         myFile = new File(pdfFolder + timeStamp + ".pdf");
+        */
+
+        myFile = new File(FILE_PATH + ".pdf");
 
         OutputStream output = new FileOutputStream(myFile);
 
