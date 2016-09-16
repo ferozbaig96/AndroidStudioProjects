@@ -1,0 +1,30 @@
+ private void hideKeypad() {
+        InputMethodManager inputManager = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+        inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
+    }
+
+-----------------------------OR----------------------------
+    private void hideSoftKeypad(TextView textView) {
+        InputMethodManager imm = (InputMethodManager) textView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+        imm.hideSoftInputFromWindow(textView.getWindowToken(), 0);
+    }
+
+ my_edittext.setOnEditorActionListener(new TextView.OnEditorActionListener() {
+            @Override
+            public boolean onEditorAction(TextView textView, int actionId, KeyEvent keyEvent) {
+
+                if (actionId == EditorInfo.IME_ACTION_DONE) {
+
+                    //todo what is to be done after next/done is clicked
+                    hideSoftKeypad(textView);
+                    return true;
+                }
+                return false;
+            }
+        });
+
+
+add the following to your edittext in xml :
+
+            android:imeOptions="actionDone"
+
