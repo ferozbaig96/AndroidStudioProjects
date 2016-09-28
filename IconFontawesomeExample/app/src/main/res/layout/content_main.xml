@@ -16,6 +16,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="@string/fa_icon_areachart"
+        android:textColor="#9b59b6"
         android:textSize="30sp" />
 
     <TextView
@@ -24,6 +25,7 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="@string/fa_icon_piechart"
+        android:textColor="#34658e"
         android:textSize="30sp" />
 
     <TextView
@@ -32,5 +34,6 @@
         android:layout_weight="1"
         android:gravity="center"
         android:text="@string/fa_icon_linechart"
+        android:textColor="#59b67e"
         android:textSize="30sp" />
 </LinearLayout>
