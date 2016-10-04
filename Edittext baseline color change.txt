@@ -1,0 +1,13 @@
+Add the following to styles.xml  :
+
+ <style name="MyEdittextBaseLine" parent="Theme.AppCompat.Light.DarkActionBar">
+        <item name="colorControlNormal">#c5c5c5</item>
+        <item name="colorControlActivated">@color/mColor</item>
+        <item name="colorControlHighlight">@color/mColor</item>
+ </style>
+
+---------------------------------------
+
+Add this attribute to Edittext :
+
+android:theme="@style/MyEdittextBaseLine"
