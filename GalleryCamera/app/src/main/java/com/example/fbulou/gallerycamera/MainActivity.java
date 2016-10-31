@@ -1,14 +1,17 @@
 package com.example.fbulou.gallerycamera;
 
+import android.Manifest;
 import android.content.ComponentName;
 import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Environment;
 import android.os.Parcelable;
 import android.provider.MediaStore;
+import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.View;
@@ -23,8 +26,13 @@ import java.util.List;
 public class MainActivity extends AppCompatActivity {
 
     private static final int SELECT_PICTURE_REQUEST_CODE = 1;
+    private static final int MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE = 2;
+    private static final int MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE = 3;
     Button getImageBtn;
     ImageView imageView;
+
+    private Uri outputFileUri;
+    InterfaceFunction interfaceFunction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -39,13 +47,15 @@ public class MainActivity extends AppCompatActivity {
         getImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                openImageIntent();
+
+                if (Build.VERSION.SDK_INT >= 23)  //Asking for permissions for post-Lollipop devices
+                    permissionWriteExternalStorage();
+                else
+                    openImageIntent();
             }
         });
 
     }
-
-    private Uri outputFileUri;
 
     private void openImageIntent() {
 
@@ -118,4 +128,63 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     }
+
+    //-----------Post-Lollipop Devices Permissions-----------
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode) {
+            case MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    openImageIntent();
+                } else {
+                    Toast.makeText(MainActivity.this, "Change your Settings to allow this app to access storage", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+            break;
+
+           /* case MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE: {
+                if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                    //TO-DO call my desired functiton
+                } else {
+                    Toast.makeText(MainActivity.this, "Change your Settings to allow this app to access storage", Toast.LENGTH_SHORT).show();
+                    finish();
+                }
+            }
+            break;*/
+        }
+    }
+
+    // Asking Permissions using PostLollipopPermissions.java
+
+    void permissionWriteExternalStorage() {
+        interfaceFunction = new InterfaceFunction() {
+            @Override
+            public void f() {
+                //TODO call my desired function
+                openImageIntent();
+            }
+        };
+
+        PostLollipopPermissons.askPermission(this, this, interfaceFunction, Manifest.permission.WRITE_EXTERNAL_STORAGE,
+                "We require this permission to save clicked photos to your device internal memory",
+                MY_PERMISSIONS_REQUEST_WRITE_EXTERNAL_STORAGE);
+    }
+
+   /* void permissionReadExternalStorage() {
+        interfaceFunction = new InterfaceFunction() {
+            @Override
+            public void f() {
+                //TO-DO call my desired function
+
+            }
+        };
+
+        PostLollipopPermissons.askPermission(this, this, interfaceFunction, Manifest.permission.READ_EXTERNAL_STORAGE,
+                "We require this permission to load clicked photos from your device internal memory",
+                MY_PERMISSIONS_REQUEST_READ_EXTERNAL_STORAGE);
+    }*/
 }
