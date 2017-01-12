@@ -14,12 +14,19 @@ import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedOutputStream;
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -121,10 +128,41 @@ public class MainActivity extends AppCompatActivity {
                 if (isCamera) {
                     selectedImageUri = outputFileUri;
                 } else {
-                    selectedImageUri = data == null ? null : data.getData();
+                    selectedImageUri = data.getData();
+                    saveUriToFile(selectedImageUri);
                 }
 
+                //resetting image (for URI)
+                imageView.setImageURI(null);
                 imageView.setImageURI(selectedImageUri);
+            }
+        }
+    }
+
+    void saveUriToFile(Uri sourceuri) {
+
+        String sourceFilename = sourceuri.getPath();
+        String destinationFilename = Environment.getExternalStorageDirectory() + File.separator + "GalleryCamera" + File.separator + "myfile.jpg";
+
+        BufferedInputStream bis = null;
+        BufferedOutputStream bos = null;
+
+        try {
+            bis = new BufferedInputStream(new FileInputStream(sourceFilename));
+            bos = new BufferedOutputStream(new FileOutputStream(destinationFilename, false));
+            byte[] buf = new byte[1024];
+            bis.read(buf);
+            do {
+                bos.write(buf);
+            } while (bis.read(buf) != -1);
+        } catch (IOException e) {
+
+        } finally {
+            try {
+                if (bis != null) bis.close();
+                if (bos != null) bos.close();
+            } catch (IOException e) {
+
             }
         }
     }
