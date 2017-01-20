@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">AsynctaskUpdateExample</string>
+    <string name="action_settings">Settings</string>
+    <string name="instruction">Toast will be shown only if the asynctask has finished. Until then, it will show a ProgressDialog</string>
+</resources>
