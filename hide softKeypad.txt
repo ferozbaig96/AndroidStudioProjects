@@ -3,6 +3,16 @@
         inputManager.hideSoftInputFromWindow(getCurrentFocus().getWindowToken(), InputMethodManager.HIDE_NOT_ALWAYS);
     }
 
+private void showSoftKeypad(final View view) {
+        view.post(new Runnable() {
+            public void run() {
+                view.requestFocusFromTouch();
+                InputMethodManager imm = (InputMethodManager) getSystemService(Context.INPUT_METHOD_SERVICE);
+                imm.showSoftInput(view, InputMethodManager.SHOW_IMPLICIT);
+            }
+        });
+    }
+
 -----------------------------OR----------------------------
     private void hideSoftKeypad(TextView textView) {
         InputMethodManager imm = (InputMethodManager) textView.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
