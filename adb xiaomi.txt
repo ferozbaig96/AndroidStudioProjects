@@ -1,0 +1,15 @@
+Move to ~/.android folder
+
+In file adb_usb.ini, paste the following vendor ids : 
+
+0x8087
+0x2080
+0x2717
+
+then the following commands :
+
+adb kill-server
+adb start-server
+adb devices
+
+Now, you can see your device :)
