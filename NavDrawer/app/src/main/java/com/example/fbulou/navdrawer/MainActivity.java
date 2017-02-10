@@ -71,14 +71,24 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             @Override
             public void onClick(View v) {
-                if (drawer.isDrawerOpen(Gravity.RIGHT)) {
-                    drawer.closeDrawer(Gravity.RIGHT);
+                if (drawer.isDrawerOpen(GravityCompat.END)) {
+                    drawer.closeDrawer(GravityCompat.END);
                 } else {
-                    drawer.openDrawer(Gravity.RIGHT);
+                    drawer.openDrawer(GravityCompat.END);
                 }
             }
         });
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
+        if (drawer.isDrawerOpen(GravityCompat.END)) {
+            drawer.closeDrawer(GravityCompat.END);
+        } else {
+            super.onBackPressed();
+        }
     }
 
     @Override
