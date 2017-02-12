@@ -1,0 +1,1 @@
+https://github.com/OmniDebt/OmniDebt-Android/wiki/Convert-Activity-to-Fragment

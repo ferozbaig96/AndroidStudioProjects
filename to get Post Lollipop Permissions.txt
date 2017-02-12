@@ -25,6 +25,23 @@ public class PostLollipopPermissons {
             interfaceFunction.f();
         }
     }
+
+ /*       android.support.v4.app.Fragment     */
+
+    static void askPermissionInFragment(Context context, Fragment mFragment, InterfaceFunction interfaceFunction, String mPermission, String requestMessage, int requestCode) {
+
+        int permissionCheck = ContextCompat.checkSelfPermission(context, mPermission);
+        if (permissionCheck == PackageManager.PERMISSION_DENIED) {
+
+            if (mFragment.shouldShowRequestPermissionRationale(mPermission))
+                Toast.makeText(context, requestMessage, Toast.LENGTH_LONG).show();
+
+            mFragment.requestPermissions(new String[]{mPermission},
+                    requestCode);
+        } else {
+            interfaceFunction.f();
+        }
+    }
 }
 
 --------------------------
