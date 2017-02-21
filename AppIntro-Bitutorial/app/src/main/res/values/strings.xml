@@ -1,0 +1,9 @@
+<resources>
+    <string name="app_name">AppIntro-Bitutorial</string>
+    <string name="action_settings">Settings</string>
+
+    <string name="administrator">Administrator #%1$d</string>
+    <string name="skip">Skip</string>
+    <string name="simple_views">Simple Views</string>
+    <string name="fragments">Fragments</string>
+</resources>
