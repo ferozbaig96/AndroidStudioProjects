@@ -22,3 +22,13 @@ MaterialShowCaseView
 ShowCaseViewTutorial
 
 TourGuideShowcaseview
+
+----------------------------
+
+WizardPager
+
+AppIntroAnimation
+
+AppIntro-Spotlight
+
+
