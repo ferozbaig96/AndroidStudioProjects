@@ -31,4 +31,6 @@ AppIntroAnimation
 
 AppIntro-Spotlight
 
+AppIntro-Bitutorial
+
 
