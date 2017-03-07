@@ -1,6 +1,7 @@
 package com.app.fbulou.commandexample;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -35,8 +36,13 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View view) {
                 hideKeypad();
                 String command = editText.getText().toString();
-                if (command.trim().length() > 0)
-                    executeCommand(command);
+                if (command.trim().length() > 0) {
+                    //executeCommand(command);
+
+                    Intent i = new Intent(MainActivity.this, MyIntentService.class);
+                    i.putExtra("COMMAND", command);
+                    startService(i);
+                }
             }
         });
     }
