@@ -2,13 +2,18 @@ package com.app.fbulou.commandexample;
 
 import android.app.IntentService;
 import android.content.Intent;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
+import android.support.v4.view.InputDeviceCompat;
 import android.util.Log;
 
 import java.io.DataOutputStream;
+import java.lang.reflect.InvocationTargetException;
 
 
 public class MyIntentService extends IntentService {
+
+    private static EventInput input;
 
     public MyIntentService() {
         super("MyIntentService");
@@ -30,16 +35,65 @@ public class MyIntentService extends IntentService {
         String command = intent.getStringExtra("COMMAND");
 
         try {
-            Thread.sleep(5000);
-            executeCommand(command);
+            Thread.sleep(2500);
+            //executeCommand(command);
+            input = new EventInput();
+            executeTouch(command);
 
         } catch (InterruptedException e) {
             // Restore interrupt status.
             Thread.currentThread().interrupt();
+        } catch (Exception e) {
+            e.printStackTrace();
         }
 
         Log.d("TAG", "onHandleIntent: after task");
 
+    }
+
+    private void executeTouch(String command) {
+        try {
+            // input.injectMotionEvent(InputDeviceCompat.SOURCE_TOUCHSCREEN, 2, SystemClock.uptimeMillis(), 500, 500, 1.0f);
+            tap(200f, 600f);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+
+        /*
+
+          float x = Float.parseFloat(touch.getString("x")) * ServerService.deviceWidth;
+                            float y = Float.parseFloat(touch.getString("y")) * ServerService.deviceHeight;
+                            String eventType = touch.getString(ClientActivity.KEY_EVENT_TYPE);
+                            if (eventType.equals(ClientActivity.KEY_FINGER_DOWN)) {
+                                input.injectMotionEvent(InputDeviceCompat.SOURCE_TOUCHSCREEN, 0,
+                                        SystemClock.uptimeMillis(), x, y, 1.0f);
+                            } else if (eventType.equals(ClientActivity.KEY_FINGER_UP)) {
+                                input.injectMotionEvent(InputDeviceCompat.SOURCE_TOUCHSCREEN, 1,
+                                        SystemClock.uptimeMillis(), x, y, 1.0f);
+                            } else if (eventType.equals(ClientActivity.KEY_FINGER_MOVE)) {
+                                input.injectMotionEvent(InputDeviceCompat.SOURCE_TOUCHSCREEN, 2,
+                                        SystemClock.uptimeMillis(), x, y, 1.0f);
+                            }
+
+        */
+    }
+
+    public static void tap(Float x, Float y) {
+        Log.d("TAG", "TAP CALLED X = " + x + " Y = " + y);
+        if (input == null) {
+            Log.e("TAG", "EventInput object is null. Returning.");
+            return;
+        }
+        try {
+            input.injectMotionEvent(InputDeviceCompat.SOURCE_TOUCHSCREEN, 0,
+                    SystemClock.uptimeMillis(), x, y, 1.0f);
+            input.injectMotionEvent(InputDeviceCompat.SOURCE_TOUCHSCREEN, 1,
+                    SystemClock.uptimeMillis(), x, y, 1.0f);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     private void executeCommand(String command) {
