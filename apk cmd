@@ -1,0 +1,13 @@
+./gradlew assembleDebug
+
+cd $HOME/Android/Sdk/platform-tools/
+
+./adb shell
+su
+pm uninstall com.dailyobjects
+
+./adb install /home/fab/do-android/app/build/outputs/apk/app-debug.apk
+
+./adb install -r /home/fab/do-android/app/build/outputs/apk/app-debug.apk
+
+cd $HOME/Android/Sdk/platform-tools/ && ./adb install -r /home/fab/do-android/app/build/outputs/apk/app-debug.apk

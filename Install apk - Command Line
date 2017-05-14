@@ -1,0 +1,19 @@
+execute from Android Studio Terminal (to make debug apk):
+
+./gradlew assembleDebug
+
+Go to Android SDK -> Platform Tools (manually) OR
+
+cd $HOME/Android/Sdk/platform-tools/
+
+execute :
+
+./adb install -r /home/fab/do-android/app/build/outputs/apk/app-debug.apk
+
+OR
+
+./adb shell //open adb shell
+su //get root permissions
+pm uninstall your.package.name //uninstall the app
+
+./adb install /home/fab/do-android/app/build/outputs/apk/app-debug.apk
