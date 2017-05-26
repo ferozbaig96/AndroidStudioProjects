@@ -1,0 +1,55 @@
+MUST HAVE IN ANDROID STUDIO :
+
+pidcat
+genymotion
+
+Go to Settings -> Plugins and add the following - 
+
+1. Android Drawable Importer
+2. Android Material Design Icon Generator
+3. RoboPojoGenerator
+
+-----------------------------------------------------
+
+RelativeLayout, LinearLayout
+orientaion
+text, textSize, inputType, textStyle, getText, setText
+layout_weight
+gravity
+TextView, EditText, Button, ListView, ImageView
+listAdapter, arrayAdapter, setAdapter
+setOnItemClickListener, AdapterView
+padding, margin
+hint
+onClick
+Toast
+icon
+item,group
+app:showAsAction,title,orderInCategory,icon
+DialogFragment class
+AlertDialog.Builder
+finish()
+
+Intent
+getIntent
+putExtra, getExtras().getString("") or getStringExtra("")
+setResult(RESULT_OK, Intent)
+requestCode , resultCode- RESULT_OK etc
+startActivityForResult(Intent, request_code)
+onActivityResult
+
+GridLayout
+columnCount, rowCount
+Spinner
+string-array
+name
+<item>
+ArrayAdapter<charSequence>
+setDropDownViewResource()
+setOnItemSelectListener()
+
+TextWatcher
+style
+parent
+
+myTextView.setMovementMethod(new ScrollingMovementMethod());
