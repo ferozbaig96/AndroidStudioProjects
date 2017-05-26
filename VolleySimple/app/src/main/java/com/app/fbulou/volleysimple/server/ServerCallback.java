@@ -3,7 +3,7 @@ package com.app.fbulou.volleysimple.server;
 import com.android.volley.VolleyError;
 
 /**
- * Callback Interface used for handling Server API Response
+ * Callback Interface used for handling Server API response
  */
 
 public interface ServerCallback<T> {

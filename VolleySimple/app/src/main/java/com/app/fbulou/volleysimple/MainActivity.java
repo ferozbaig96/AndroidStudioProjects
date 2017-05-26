@@ -16,8 +16,10 @@ import org.json.JSONObject;
 
 import java.util.HashMap;
 
+import com.app.fbulou.volleysimple.pojo.SamplePojo;
 import com.app.fbulou.volleysimple.server.RequestManager;
 import com.app.fbulou.volleysimple.server.ServerCallback;
+import com.google.gson.Gson;
 
 public class MainActivity extends AppCompatActivity implements ServerCallback, View.OnClickListener {
 
@@ -110,6 +112,12 @@ public class MainActivity extends AppCompatActivity implements ServerCallback, V
     public void onAPIResponse(String apiTag, Object response) {
         Log.e(TAG, "onAPIResponse() called with: apiTag = [" + apiTag + "], response = [" + response + "]");
         hideProgressDialog();
+
+        if ("JOR - jo GET".equals(apiTag)) {
+            SamplePojo samplePojo = new Gson().fromJson(response.toString(), SamplePojo.class);
+
+            Log.e(TAG, "SamplePojo : " + samplePojo);
+        }
     }
 
     @Override
