@@ -29,11 +29,13 @@ public class RequestManager {
     @SuppressLint("StaticFieldLeak")
     private static RequestManager Instance;
     private RequestQueue mRequestQueue;
+    private RetryPolicy retryPolicy;
     private Context mCtx;
 
     private RequestManager(Context context) {
         mCtx = context;
         mRequestQueue = getRequestQueue();
+        retryPolicy = new DefaultRetryPolicy(3000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
     }
 
     public static RequestManager getInstance(Context context) {
@@ -76,8 +78,7 @@ public class RequestManager {
             }
         };
 
-        RetryPolicy policy = new DefaultRetryPolicy(3000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-        request.setRetryPolicy(policy);
+        request.setRetryPolicy(retryPolicy);
 
         addToRequestQueue(request);
     }
@@ -101,8 +102,7 @@ public class RequestManager {
             }
         };
 
-        RetryPolicy policy = new DefaultRetryPolicy(3000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-        request.setRetryPolicy(policy);
+        request.setRetryPolicy(retryPolicy);
 
         addToRequestQueue(request);
     }
@@ -126,8 +126,7 @@ public class RequestManager {
             }
         };
 
-        RetryPolicy policy = new DefaultRetryPolicy(3000, 2, DefaultRetryPolicy.DEFAULT_BACKOFF_MULT);
-        request.setRetryPolicy(policy);
+        request.setRetryPolicy(retryPolicy);
 
         addToRequestQueue(request);
     }
