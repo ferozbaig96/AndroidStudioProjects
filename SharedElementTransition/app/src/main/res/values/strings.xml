@@ -1,0 +1,4 @@
+<resources>
+    <string name="app_name">Shared Element Transition</string>
+    <string name="title_activity_second">Second Activity</string>
+</resources>
