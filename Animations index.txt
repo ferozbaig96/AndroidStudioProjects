@@ -8,6 +8,8 @@ LikeButtonAnimation
 
 MaterialRippleExample
 
+SharedElementTransition - SharedElement transition for activities
+
 ActivitySharedTransition - SharedElement transition for pre lollipop for activities
 
 PreLollipopTransitionExample - SharedElement transition for pre lollipop
