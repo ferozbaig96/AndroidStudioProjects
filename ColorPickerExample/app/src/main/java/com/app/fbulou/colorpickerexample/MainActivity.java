@@ -30,7 +30,7 @@ public class MainActivity extends AppCompatActivity {
         ColorSeekBar colorSeekBar = (ColorSeekBar) findViewById(R.id.colorSlider);
         tvHelloWorld = (TextView) findViewById(R.id.tvHelloWorld);
         ivBlock = (ImageView) findViewById(R.id.ivBlock);
-        colorSeekBar.setMaxPosition(100);
+        colorSeekBar.setMaxPosition(50);
         colorSeekBar.setColorSeeds(R.array.material_colors); // material_colors is default included in res/color,just use it.
         colorSeekBar.setColorBarPosition(10); //0 - maxValue
         colorSeekBar.setAlphaBarPosition(10); //0 - 255
