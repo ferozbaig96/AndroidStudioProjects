@@ -6,7 +6,6 @@ import android.support.v7.app.AppCompatActivity
 import android.support.v7.widget.Toolbar
 import kotlinx.android.synthetic.main.activity_main.*
 import kotlinx.android.synthetic.main.content_main.*
-import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import org.jetbrains.anko.coroutines.experimental.asReference
@@ -29,16 +28,27 @@ class MainActivity : AppCompatActivity() {
 
         btn.setOnClickListener {
             async(UI) {
+                btn.isEnabled = false
                 val result = bg {
                     // do something in background
-                    Thread.sleep(2000L)
+                    loge("Before heavy bg task")
+                    Thread.sleep(5000L)
+                    loge("After heavy bg task")
+
                     "returned sample string"
                 }
 
+                loge("Inside UI Thread")
                 // update UI
                 val str: String = result.await()
+                loge("Updating UI now")
                 ref.invoke().renderData(str)
+                loge("UI updated")
+
+                btn.isEnabled = true
             }
+
+            loge("Outside UI Thread")
         }
     }
 
