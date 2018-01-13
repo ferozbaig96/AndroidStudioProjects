@@ -10,6 +10,9 @@ execute :
 
 ./adb install -r /home/fab/do-android/app/build/outputs/apk/app-debug.apk
 
+
+./adb install -r /home/fab/TrueWheels/app/build/outputs/apk/debug/app-debug.apk
+
 OR
 
 ./adb shell //open adb shell
@@ -17,3 +20,10 @@ su //get root permissions
 pm uninstall your.package.name //uninstall the app
 
 ./adb install /home/fab/do-android/app/build/outputs/apk/app-debug.apk
+
+-------------------------------------------------------------------------
+
+$HOME/Android/Sdk/platform-tools/adb install -r /home/fab/TrueWheels/app/build/outputs/apk/debug/app-debug.apk
+
+./gradlew assembleDebug;$HOME/Android/Sdk/platform-tools/adb install -r /home/fab/TrueWheels/app/build/outputs/apk/debug/app-debug.apk
+
