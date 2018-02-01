@@ -1,0 +1,9 @@
+/*holder?.tvBookingOtherInfo?.setOnClickListener {
+             holder.apply {
+                 if (tvBookingOtherInfo.selectionStart == -1 && tvBookingOtherInfo.selectionEnd == -1) {
+                     //This condition will satisfy only when it is not an auto-linked text
+                     //Fired only when you touch the part of the text that is not hyperlinked
+                     itemView?.performClick()
+                 }
+             }
+         }*/
