@@ -5,20 +5,21 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 
-import me.dm7.barcodescanner.zbar.Result;
-import me.dm7.barcodescanner.zbar.ZBarScannerView;
+import com.google.zxing.Result;
 
-public class SimpleScannerActivity extends AppCompatActivity implements ZBarScannerView.ResultHandler {
+import me.dm7.barcodescanner.zxing.ZXingScannerView;
+
+public class SimpleScannerActivity extends AppCompatActivity implements ZXingScannerView.ResultHandler {
 
     /*
         https://github.com/dm77/barcodescanner
     */
-    private ZBarScannerView mScannerView;
+    private ZXingScannerView mScannerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        mScannerView = new ZBarScannerView(this);    // Programmatically initialize the scanner view
+        mScannerView = new ZXingScannerView(this);    // Programmatically initialize the scanner view
         setContentView(mScannerView);                // Set the scanner view as the content view
     }
 
@@ -35,22 +36,21 @@ public class SimpleScannerActivity extends AppCompatActivity implements ZBarScan
         mScannerView.stopCamera();           // Stop camera on pause
     }
 
-
     @Override
-    public void handleResult(Result result) {
-
+    public void handleResult(Result rawResult) {
         // Do something with the result here
-        Log.e("TAG", result.getContents()); // Prints scan results
-        Log.e("TAG", result.getBarcodeFormat().getName()); // Prints the scan format (qrcode, pdf417 etc.)
+        Log.v("TAG", rawResult.getText()); // Prints scan results
+        Log.v("TAG", rawResult.getBarcodeFormat().toString()); // Prints the scan format (qrcode, pdf417 etc.)
 
         // If you would like to resume scanning, call this method below:
         //mScannerView.resumeCameraPreview(this);
 
         Intent intent = new Intent();
-        intent.putExtra("msg", result.getContents());
-        intent.putExtra("scan_format", result.getBarcodeFormat().getName());
+        intent.putExtra("msg", rawResult.getText());
+        intent.putExtra("scan_format", rawResult.getBarcodeFormat().toString());
         setResult(RESULT_OK, intent);
 
         finish();
     }
+
 }

@@ -23,7 +23,7 @@
         <activity
             android:name=".SimpleScannerActivity"
             android:label="@string/title_activity_simple_scanner"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"/>
     </application>
 
 </manifest>
